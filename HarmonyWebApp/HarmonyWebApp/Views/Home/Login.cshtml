@@ -1,0 +1,19 @@
+﻿@model HarmonyWebApp.Models.UserLogin.UserLogin
+
+
+
+<h1><b>Harmony - strona logowania </b></h1>
+
+
+@using (Html.BeginForm())
+{
+        @Html.ValidationSummary()
+       <p>Login: @Html.TextBoxFor(x => x.Login)</p>
+       <p>Hasło: @Html.TextBoxFor(x => x.Password)</p>
+
+
+
+
+
+<input type="submit" value="Zaloguj" />
+}
