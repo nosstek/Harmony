@@ -52,5 +52,10 @@ namespace HarmonyWebApp.Models.Database
                 .Property(e => e.email)
                 .IsUnicode(false);
         }
+
+        internal int Max(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

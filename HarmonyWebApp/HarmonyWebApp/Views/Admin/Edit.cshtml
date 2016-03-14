@@ -1,0 +1,44 @@
+﻿@model HarmonyWebApp.Models.Database.Activity
+
+@{
+    ViewBag.Title = "Administracja: edycja " + Model.name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-body">
+        <h3>Edycja @Model.name</h3>
+    </div>
+
+    @using (Html.BeginForm("Edit","Admin"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.id)
+
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "id")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "description")
+                        {
+                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                        }
+                    </div>
+                }
+            }
+
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            @Html.ActionLink("Anuluj i wróć do listy", "Index", null, new { @class = "btn btn-default" })
+        </div>
+
+    }
+</div>

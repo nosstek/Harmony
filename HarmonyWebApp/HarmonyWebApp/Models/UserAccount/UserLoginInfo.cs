@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HarmonyWebApp.Models.UserLogin
+namespace HarmonyWebApp.Models.UserAccount
 {
-    public class UserLogin
+    public class UserLoginInfo
     {
-        [Required(ErrorMessage ="Proszę podać swój login")]
+        [Required(ErrorMessage = "Proszę podać swój login")]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Proszę podać swoje hasło")]

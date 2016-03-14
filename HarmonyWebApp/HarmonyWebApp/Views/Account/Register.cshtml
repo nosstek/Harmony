@@ -1,72 +1,39 @@
-﻿@model HarmonyWebApp.Models.Database.User
+﻿@model HarmonyWebApp.Models.UserAccount.UserRegisterInfo
 
 @{
-    ViewBag.Title = "Rejestracja";
+    ViewBag.Title = "Harmony: Panel rejestracyjny";
 }
 
-<h2>Rejestracja</h2>
+<div class="panel">
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        @if(ViewBag.Message != null)
-        {
-            <div class="form-group">
-                <div class="col-md-10">@ViewBag.Message</div>
-            </div>
-        }
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="panel-heading">
+        <h2>Rejestracja</h2>
     </div>
-}
 
-    @*<div>
-        @Html.ActionLink("Lista użytkowników", "Index")
-    </div>*@
+    <div class="panel-body">
+        <p class="lead">Proszę podać poniższe parametry w celu utworzenia konta użytkownika:</p>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            <div class="form-group">
+                <label>Login:</label>
+                @Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Hasło:</label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Adres e-mail:</label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <input type="submit" value="Stwórz konto" class="btn btn-success" />
+        }
+    </div>
+</div>
+
+
+<div class="btn-group-vertical-lg">
+        @Html.ActionLink("Powrót do strony logowania", "Login", "Account", null, new { @class = "btn btn-primary " })
+</div>

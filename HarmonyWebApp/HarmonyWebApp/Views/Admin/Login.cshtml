@@ -1,9 +1,8 @@
 ﻿@model HarmonyWebApp.Models.UserAccount.UserLoginInfo
 
 @{
-    ViewBag.Title = "Harmony: Logowanie";
+    ViewBag.Title = "Harmony: Logowanie (administrator)";
 }
-
 
 <div class="panel">
 
@@ -12,7 +11,7 @@
     </div>
 
     <div class="panel-body">
-        <p class="lead">Proszę się zalogować, aby uzyskać dostęp do panelu użytkownika.</p>
+        <p class="lead">Proszę się zalogować, aby uzyskać dostęp do panelu administratora.</p>
 
         @using (Html.BeginForm())
         {
@@ -44,7 +43,7 @@
 
 <div class="btn-group-vertical-lg">
     <center>
-        @Html.ActionLink("Przejdź do panelu administratora", "Login", "Admin", null, new { @class = "btn btn-warning " })
+        @Html.ActionLink("Przejdź do panelu użytkownika", "Login", "Account", null, new { @class = "btn btn-warning" })
 
         @Html.ActionLink("Załóż nowe konto", "Register", "Account", null, new { @class = "btn btn-primary " })
     </center>
