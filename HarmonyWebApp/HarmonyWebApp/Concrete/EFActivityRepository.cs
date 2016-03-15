@@ -36,7 +36,16 @@ namespace HarmonyWebApp.Concrete
             if (activity.id == 0)
             {
                 var dbActivity = context.Activity.ToList();
-                activity.id = dbActivity.Max(x => x.id) + 1;
+
+                if(dbActivity.Count == 0)
+                {
+                    activity.id = 1;
+                }
+                else
+                {
+                    activity.id = dbActivity.Max(x => x.id) + 1;
+
+                }
 
                 context.Activity.Add(activity);
             }

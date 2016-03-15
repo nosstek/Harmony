@@ -1,6 +1,7 @@
 ﻿using HarmonyWebApp.Abstract;
 using HarmonyWebApp.Models.Database;
 using HarmonyWebApp.Models.UserAccount;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -92,6 +93,7 @@ namespace HarmonyWebApp.Controllers
                         {
                             Session["UserId"] = usr.id.ToString();
                             Session["UserName"] = usr.name.ToString();
+                            Session["UserGroup"] = usrGroup.Group_id.ToString();
                             return RedirectToAction("LoggedIn");
                         }
                         else if (usrGroup.Group_id == 2)
@@ -109,6 +111,7 @@ namespace HarmonyWebApp.Controllers
             return View();
         }
 
+      //  [Authorize]
         public ActionResult LoggedIn()
         {
             if(Session["UserId"] != null)
@@ -122,6 +125,69 @@ namespace HarmonyWebApp.Controllers
                 return RedirectToAction("Login");
             }
         }
+
+
+
+
+        [HttpGet]
+        public ActionResult ActivityJoin()
+        {
+            return View();
+     
+        }
+
+
+        [HttpPost]
+        public ActionResult ActivityJoin(Activity activity)
+        {
+            if (ModelState.IsValid)
+            {
+                using (HarmonyData db = new HarmonyData())
+                {
+
+                    var act = db.Activity.Where(u => u.name == activity.name).FirstOrDefault();
+
+                    if(act != null)
+                    {
+                        User_with_activities userWithAct = new User_with_activities();
+
+                        var dataUserActivity = db.User_with_activities.ToList();
+                        int maxIdUserActivity;
+
+                        if (dataUserActivity.Count == 0)
+                        {
+                            maxIdUserActivity = 1;
+                        }
+                        else
+                        {
+                            maxIdUserActivity = dataUserActivity.Max(x => x.id) + 1;
+                        }
+
+                        userWithAct.id = maxIdUserActivity;
+                        userWithAct.Activity_id = act.id;
+                        userWithAct.User_id = int.Parse(Session["UserId"].ToString());
+
+                        db.User_with_activities.Add(userWithAct);
+                        db.SaveChanges();
+
+                        return RedirectToAction("LoggedIn", "Account");
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Nie ma takiej grupy");
+                return View();
+            }
+        }
+
+
+
+
     }
 
 }
