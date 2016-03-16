@@ -29,7 +29,7 @@ namespace HarmonyWebApp.Controllers
             {
                 using (HarmonyData db = new HarmonyData())
                 {
-                    var usr = db.User.Where(u => u.name == account.Login && u.email == account.Email).FirstOrDefault();
+                    var usr = db.User.Where(u => u.name == account.Login || u.email == account.Email).FirstOrDefault();
                     var dataUser = db.User.ToList();
                     var dataGroup = db.User_with_groups.ToList();
                     int maxIdUser = dataUser.Max(x => x.id);
@@ -58,8 +58,20 @@ namespace HarmonyWebApp.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Użytkownik o podanym loginie / adresie e-mail już istnieje");
-                        return View();
+                        var login_exist = db.User.Where(u => u.name == account.Login).FirstOrDefault();
+
+                        if(login_exist == null)
+                        {
+                            ModelState.AddModelError("", "Użytkownik o podanym adresie e-mail już istnieje w bazie. Proszę użyć innego.");
+                            return View();
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Użytkownik o podanym loginie już istnieje. Proszę użyć innego.");
+                            return View();
+                        }
+
+                    
                     }
 
                 }
