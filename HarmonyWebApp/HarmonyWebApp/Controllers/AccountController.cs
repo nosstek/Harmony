@@ -112,11 +112,23 @@ namespace HarmonyWebApp.Controllers
                         {
                             ModelState.AddModelError("", "Proszę zalogować się w panelu dla administratorów");
                         }
+                       
+                    }
+
+                  else
+                    {
+                        var login_exist = db.User.Where(u => u.name == user.Login).FirstOrDefault();
+
+                        if (login_exist != null)
+                        {
+                            ModelState.AddModelError("", "Podano błędne hasło.");
+                        }
                         else
                         {
-                            ModelState.AddModelError("", "Podano błedny login lub hasło.");
+                            ModelState.AddModelError("", "Podano błędny login.");
                         }
                     }
+
                 }
             }
 
