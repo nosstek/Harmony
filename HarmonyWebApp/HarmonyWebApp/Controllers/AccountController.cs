@@ -25,7 +25,7 @@ namespace HarmonyWebApp.Controllers
         [HttpPost]
         public ActionResult Register(UserRegisterInfo account)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 using (HarmonyData db = new HarmonyData())
                 {
@@ -48,7 +48,7 @@ namespace HarmonyWebApp.Controllers
                         userDbGroups.id = maxIdGroup + 1;
                         userDbGroups.User_id = userDb.id;
                         userDbGroups.Group_id = 1; // domyślnie - zwykły użytkownik
-                                        
+
                         db.User.Add(userDb);
                         db.User_with_groups.Add(userDbGroups);
 
@@ -60,7 +60,7 @@ namespace HarmonyWebApp.Controllers
                     {
                         var login_exist = db.User.Where(u => u.name == account.Login).FirstOrDefault();
 
-                        if(login_exist == null)
+                        if (login_exist == null)
                         {
                             ModelState.AddModelError("", "Użytkownik o podanym adresie e-mail już istnieje w bazie. Proszę użyć innego.");
                             return View();
@@ -70,8 +70,6 @@ namespace HarmonyWebApp.Controllers
                             ModelState.AddModelError("", "Użytkownik o podanym loginie już istnieje. Proszę użyć innego.");
                             return View();
                         }
-
-                    
                     }
 
                 }
@@ -112,10 +110,10 @@ namespace HarmonyWebApp.Controllers
                         {
                             ModelState.AddModelError("", "Proszę zalogować się w panelu dla administratorów");
                         }
-                       
+
                     }
 
-                  else
+                    else
                     {
                         var login_exist = db.User.Where(u => u.name == user.Login).FirstOrDefault();
 
@@ -135,10 +133,9 @@ namespace HarmonyWebApp.Controllers
             return View();
         }
 
-      //  [Authorize]
         public ActionResult LoggedIn()
         {
-            if(Session["UserId"] != null)
+            if (Session["UserId"] != null)
             {
                 var activityList = _activityRepo.Activities.ToList();
 
@@ -150,56 +147,44 @@ namespace HarmonyWebApp.Controllers
             }
         }
 
-
-
-
         [HttpGet]
         public ActionResult ActivityJoin()
         {
+            ViewBag.ActivityData = new SelectList(_activityRepo.Activities, "id", "name");
+
             return View();
-     
         }
 
 
         [HttpPost]
-        public ActionResult ActivityJoin(Activity activity)
+        public ActionResult ActivityJoin(string ActivityData)
         {
-            if (ModelState.IsValid)
+            if(ActivityData != null)
             {
                 using (HarmonyData db = new HarmonyData())
                 {
+                    User_with_activities userWithActiv = new User_with_activities();
 
-                    var act = db.Activity.Where(u => u.name == activity.name).FirstOrDefault();
+                    var dataUserActivity = db.User_with_activities.ToList();
+                    int maxIdUserWithActivity;
 
-                    if(act != null)
+                    if (dataUserActivity.Count == 0)
                     {
-                        User_with_activities userWithAct = new User_with_activities();
-
-                        var dataUserActivity = db.User_with_activities.ToList();
-                        int maxIdUserActivity;
-
-                        if (dataUserActivity.Count == 0)
-                        {
-                            maxIdUserActivity = 1;
-                        }
-                        else
-                        {
-                            maxIdUserActivity = dataUserActivity.Max(x => x.id) + 1;
-                        }
-
-                        userWithAct.id = maxIdUserActivity;
-                        userWithAct.Activity_id = act.id;
-                        userWithAct.User_id = int.Parse(Session["UserId"].ToString());
-
-                        db.User_with_activities.Add(userWithAct);
-                        db.SaveChanges();
-
-                        return RedirectToAction("LoggedIn", "Account");
+                        maxIdUserWithActivity = 1;
                     }
                     else
                     {
-                        return View();
+                        maxIdUserWithActivity = dataUserActivity.Max(x => x.id) + 1;
                     }
+
+                    userWithActiv.id = maxIdUserWithActivity;
+                    userWithActiv.User_id = int.Parse(Session["UserId"].ToString());
+                    userWithActiv.Activity_id = int.Parse(ActivityData);
+
+                    db.User_with_activities.Add(userWithActiv);
+                    db.SaveChanges();
+
+                    return RedirectToAction("LoggedIn", "Account");
                 }
             }
             else
@@ -210,8 +195,5 @@ namespace HarmonyWebApp.Controllers
         }
 
 
-
-
     }
-
 }
