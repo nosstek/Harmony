@@ -62,7 +62,7 @@ namespace HarmonyWebApp.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             System.Web.Mvc.DependencyResolver.SetResolver(new
-                HarmonyWebApp.Infrastructure.NinjectDependencyResolver(kernel));
+               HarmonyWebApp.Infrastructure.NinjectDependencyResolver(kernel));
         }        
     }
 }

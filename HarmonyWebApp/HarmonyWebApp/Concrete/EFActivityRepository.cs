@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using HarmonyWebApp.Abstract;
-using HarmonyWebApp.Models.Database;
+using HarmonyWebApp.Entities;
+using HarmonyWebApp.Models;
 using System.Linq;
-using System.Data.Entity;
 
 namespace HarmonyWebApp.Concrete
 {
     public class EFActivityRepository : IActivityRepository
     {
-        private HarmonyData context = new HarmonyData();
+        private ApplicationDbContext context = new ApplicationDbContext();
 
         public IEnumerable<Activity> Activities
         {
             get
             {
-                return context.Activity;
+                return context.Activities;
             }
         }
 
         public Activity DeleteActivity(int activityId)
         {
-            var dbEntry = context.Activity.Single(m => m.id == activityId);
+            var dbEntry = context.Activities.Single(m => m.Id == activityId);
 
             if (dbEntry != null)
             {
-                context.Activity.Remove(dbEntry);
+                context.Activities.Remove(dbEntry);
                 context.SaveChanges();
             }
             return dbEntry;
@@ -33,40 +33,39 @@ namespace HarmonyWebApp.Concrete
 
         public void SaveProduct(Activity activity)
         {
-            if (activity.id == 0)
+            if (activity.Id == 0)
             {
-                var dbActivity = context.Activity.ToList();
+                var dbActivity = context.Activities.ToList();
 
-                if(dbActivity.Count == 0)
+                if (dbActivity.Count == 0)
                 {
-                    activity.id = 1;
+                    activity.Id = 1;
                 }
                 else
                 {
-                    activity.id = dbActivity.Max(x => x.id) + 1;
+                    activity.Id = dbActivity.Max(x => x.Id) + 1;
 
                 }
 
-                context.Activity.Add(activity);
+                context.Activities.Add(activity);
             }
             else
             {
-                var dbEntry = context.Activity.Single(m => m.id == activity.id);
+                var dbEntry = context.Activities.Single(m => m.Id == activity.Id);
 
                 if (dbEntry != null)
                 {
-                    dbEntry.name = activity.name;
-                    dbEntry.description = activity.description;
-                    dbEntry.start_date = activity.start_date;
-                    dbEntry.end_date = activity.end_date;
-                    dbEntry.every_x_days = activity.every_x_days;
-                    dbEntry.free_weekends = activity.free_weekends;
+                    dbEntry.Name = activity.Name;
+                    dbEntry.Code = activity.Code;
+                    dbEntry.Description = activity.Description;
+                    dbEntry.StartDate = activity.StartDate;
+                    dbEntry.EndDate = activity.EndDate;
+                    dbEntry.Every_x_Days = activity.Every_x_Days;
+                    dbEntry.FreeWeekends = activity.FreeWeekends;
 
                 }
             }
             context.SaveChanges();
         }
-
-
     }
 }

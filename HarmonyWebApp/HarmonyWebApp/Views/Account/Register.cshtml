@@ -1,39 +1,41 @@
-﻿@model HarmonyWebApp.Models.UserAccount.UserRegisterInfo
-
+﻿@model HarmonyWebApp.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Harmony: Panel rejestracyjny";
+    ViewBag.Title = "Harmony - Rejestracja";
 }
 
-<div class="panel">
+<h2>@ViewBag.Title</h2>
 
-    <div class="panel-heading">
-        <h2>Rejestracja</h2>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Utwórz nowe konto</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <label class="col-md-2 control-label">Email</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
     </div>
-
-    <div class="panel-body">
-        <p class="lead">Proszę podać poniższe parametry w celu utworzenia konta użytkownika:</p>
-
-        @using (Html.BeginForm())
-        {
-            @Html.ValidationSummary()
-            <div class="form-group">
-                <label>Login:</label>
-                @Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Hasło:</label>
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Adres e-mail:</label>
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            </div>
-            <input type="submit" value="Stwórz konto" class="btn btn-success" />
-        }
+    <div class="form-group">
+        <label class="col-md-2 control-label">Hasło</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Potwierdź hasło</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Utwórz" />
+        </div>
+    </div>
+}
 
-
-<div class="btn-group-vertical-lg">
-        @Html.ActionLink("Powrót do strony logowania", "Login", "Account", null, new { @class = "btn btn-primary " })
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

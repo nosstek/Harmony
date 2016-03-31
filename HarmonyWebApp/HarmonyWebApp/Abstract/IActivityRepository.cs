@@ -1,4 +1,4 @@
-﻿using HarmonyWebApp.Models.Database;
+﻿using HarmonyWebApp.Entities;
 using System.Collections.Generic;
 
 namespace HarmonyWebApp.Abstract

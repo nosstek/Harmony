@@ -16,7 +16,7 @@ namespace HarmonyWebApp.Infrastructure
             kernel = kernelParam;
             AddBindings();
         }
-                
+
         public object GetService(Type serviceType)
         {
             return kernel.TryGet(serviceType);
