@@ -21,13 +21,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Twoje kursy", "UserCourses", "Home")</li>
                     <li>@Html.ActionLink("Zapisy", "ActivityJoin", "Home")</li>
+                    <li>@Html.ActionLink("Przeglądanie kursów", "OverviewCourses", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success"> @TempData["message"] </div>
+        }
         @RenderBody()
         <hr />
         <footer>
