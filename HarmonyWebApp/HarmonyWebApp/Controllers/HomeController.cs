@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace HarmonyWebApp.Controllers
 {
@@ -49,21 +51,31 @@ namespace HarmonyWebApp.Controllers
         public ActionResult ActivityJoin(string ActivityData)
         {
             if (ActivityData != null)
-            {
+            { 
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
                     var userId = User.Identity.GetUserId();
                     var activityId = int.Parse(ActivityData);
 
-                    db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
-                    db.SaveChanges();
+                    var disableJoin = _repository.UsersWithActivities.Any(x => x.ActivityId == activityId && x.UserId == userId);
+
+                    if (disableJoin == false)
+                    {
+                        db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
+                        db.SaveChanges();
+                        TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
+                    }
+                    else
+                    {
+                        TempData["message2"] = string.Format("Nie można zapisać się ponownie do tej samej grupy");
+                    }
                 }
 
                 return RedirectToAction("ActivityJoin", "Home");
             }
             else
             {
-                ModelState.AddModelError("", "Nie ma takiej grupy"); // Zastąpić 
+                TempData["message2"] = string.Format("Nie ma takiej grupy");
                 return RedirectToAction("ActivityJoin", "Home");
             }
         }
@@ -83,28 +95,40 @@ namespace HarmonyWebApp.Controllers
 
                     if (result != false)
                     {
-                        var activity = _repository.Activities.Where(x => x.Code == activityCode).Single();
-                        var activityId = activity.Id;
+                        var checkActivityName = _repository.Activities.Where(x => x.Code == activityCode).Single();
+                        var disableJoin = _repository.UsersWithActivities.Any(x => x.ActivityId == checkActivityName.Id && x.UserId == userId);
 
-                        db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
-                        db.SaveChanges();
+                        if (disableJoin == false)
+                        {
+
+                            var activity = _repository.Activities.Where(x => x.Code == activityCode).Single();
+                            var activityId = activity.Id;
+
+                            db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
+                            db.SaveChanges();
+                            TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
+                        }
+                       else
+                        {
+                            TempData["message2"] = string.Format("Nie można zapisać się ponownie do tej samej grupy");
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Nie ma takiej grupy"); // Zastąpić 
+                         TempData["message2"] = string.Format("Nie ma takiej grupy");
                     }
                     return RedirectToAction("ActivityJoin", "Home");
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Nie ma takiej grupy"); // Zastąpić 
+                TempData["message2"] = string.Format("Nie ma takiej grupy");
                 return RedirectToAction("ActivityJoin", "Home");
             }
         }
 
         // GET: Kursy użytkownika
-        public ActionResult UserCourses()
+        public ActionResult UserCourses(int? page)
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
@@ -116,7 +140,7 @@ namespace HarmonyWebApp.Controllers
                          where e.UserId == userId
                          select d;
 
-            return View(result);
+            return View(result.ToList().ToPagedList(page ?? 1, 10));
         }
 
         // POST: Wypisanie użytkownika z kursu
@@ -143,7 +167,7 @@ namespace HarmonyWebApp.Controllers
         }
 
         // GET: Przeglądanie kursów
-        public ActionResult OverviewCourses(string searchString, string searchBy, string sort)
+        public ActionResult OverviewCourses(string searchString, string searchBy, string sort, int? page)
         {
             var movies = _repository.Activities;
 
@@ -202,8 +226,9 @@ namespace HarmonyWebApp.Controllers
                     movies = movies.OrderBy(x => x.EndDate);
                     break;
             }
-                        
-            return View(movies);
+
+            return View(movies.ToList().ToPagedList(page ?? 1, 10));
         }
     }
 }
+

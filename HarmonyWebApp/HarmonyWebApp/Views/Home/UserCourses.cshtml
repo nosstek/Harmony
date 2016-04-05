@@ -1,4 +1,7 @@
-﻿@model IEnumerable<HarmonyWebApp.Entities.Activity>
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<HarmonyWebApp.Entities.Activity>
 
 @{
     ViewBag.Title = "Harmony - Twoje kursy";
@@ -40,3 +43,4 @@
     }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("UserCourses"),new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

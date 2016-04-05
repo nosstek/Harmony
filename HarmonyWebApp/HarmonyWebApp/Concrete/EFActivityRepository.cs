@@ -19,6 +19,14 @@ namespace HarmonyWebApp.Concrete
             }
         }
 
+        public IEnumerable<UserWithActivities> UsersWithActivities
+        {
+            get
+            {
+                return context.UsersWithActivities;
+            }
+        }
+
         public Activity DeleteActivity(int activityId)
         {
             var dbEntry = context.Activities.Single(m => m.Id == activityId);

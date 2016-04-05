@@ -1,4 +1,7 @@
-﻿@model IEnumerable<HarmonyWebApp.Entities.Activity>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<HarmonyWebApp.Entities.Activity>
+
 
 @{
     ViewBag.Title = "Harmony - Przeglądanie kursów";
@@ -51,3 +54,6 @@
     }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("OverviewCourses", new { page, searchBy = Request.QueryString["searchBy"], searchString = Request.QueryString["searchString"] }),
+new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+

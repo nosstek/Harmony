@@ -61,6 +61,14 @@
       <HintPath>..\packages\Ninject.MVC3.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -196,17 +204,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Migrations\201603231235051_Init.cs" />
-    <Compile Include="Migrations\201603231235051_Init.Designer.cs">
-      <DependentUpon>201603231235051_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301353110_AddedUserWithActivities.cs" />
-    <Compile Include="Migrations\201603301353110_AddedUserWithActivities.Designer.cs">
-      <DependentUpon>201603301353110_AddedUserWithActivities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603311102001_ChangedUserIdColumn.cs" />
-    <Compile Include="Migrations\201603311102001_ChangedUserIdColumn.Designer.cs">
-      <DependentUpon>201603311102001_ChangedUserIdColumn.cs</DependentUpon>
+    <Compile Include="Migrations\201604051258479_init.cs" />
+    <Compile Include="Migrations\201604051258479_init.Designer.cs">
+      <DependentUpon>201604051258479_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -218,6 +218,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -288,14 +289,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603231235051_Init.resx">
-      <DependentUpon>201603231235051_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301353110_AddedUserWithActivities.resx">
-      <DependentUpon>201603301353110_AddedUserWithActivities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603311102001_ChangedUserIdColumn.resx">
-      <DependentUpon>201603311102001_ChangedUserIdColumn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604051258479_init.resx">
+      <DependentUpon>201604051258479_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
