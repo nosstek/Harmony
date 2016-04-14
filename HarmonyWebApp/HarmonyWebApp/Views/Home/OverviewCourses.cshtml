@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
-<h3>Przeglądanie dostępnych kursów</h3>
+<h3>Przeglądanie dostępnych kursów  @Model.Count()</h3>
 
 <p>
     @using (Html.BeginForm("OverviewCourses", "Home" ,FormMethod.Get))

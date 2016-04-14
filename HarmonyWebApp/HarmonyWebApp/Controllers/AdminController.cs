@@ -2,6 +2,11 @@
 using HarmonyWebApp.Entities;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
+using HarmonyWebApp.Models;
+using System;
+using Microsoft.AspNet.Identity;
 
 namespace HarmonyWebApp.Controllers
 {
@@ -16,9 +21,11 @@ namespace HarmonyWebApp.Controllers
         }
 
         // GET: Strona główna
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(_repository.Activities);
+
+            var result = _repository.Activities;
+            return View(result.ToList().ToPagedList(page ?? 1, 10));
         }
 
         // GET: Edycja
