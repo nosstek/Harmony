@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HarmonyWebApp.Models;
+using HarmonyWebApp.Abstract;
 
 namespace HarmonyWebApp.Controllers
 {
@@ -17,9 +18,13 @@ namespace HarmonyWebApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IDepartmentRepository _departmentRepository;
+        private IFieldOfStudyRepository _fieldOfStudyRepository;
 
-        public AccountController()
+        public AccountController(IDepartmentRepository departmentRepository, IFieldOfStudyRepository fieldOfStudyRepository)
         {
+            _departmentRepository = departmentRepository;
+            _fieldOfStudyRepository = fieldOfStudyRepository;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -148,6 +153,28 @@ namespace HarmonyWebApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var departmentsList =
+                 _departmentRepository.Departments
+                .ToList()
+                .Select(s => new
+                {
+                    DepartmentId = s.Id,
+                    DepartmentName = s.DepartmentName
+                });
+
+            var fieldsOfStudyList =
+                 _fieldOfStudyRepository.FieldsOfStudy
+                .ToList()
+                .Select(s => new
+                {
+                    FieldOfStudyId = s.Id,
+                    FieldOfStudyName = s.FieldOfStudyName
+                });
+
+
+            ViewBag.DepartmentData = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+            ViewBag.FieldOfStudyData = new SelectList(fieldsOfStudyList, "FieldOfStudyId", "FieldOfStudyName");
+
             return View();
         }
 
@@ -160,7 +187,19 @@ namespace HarmonyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    PostalCode = model.PostalCode,
+                    City = model.City,
+                    Student = true,
+                    FullTimeStudies = true
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

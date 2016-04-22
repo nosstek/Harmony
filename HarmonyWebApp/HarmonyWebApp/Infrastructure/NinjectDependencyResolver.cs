@@ -31,6 +31,8 @@ namespace HarmonyWebApp.Infrastructure
         {
             //tu umieścić połączenia
             kernel.Bind<IActivityRepository>().To<EFActivityRepository>();
+            kernel.Bind<IDepartmentRepository>().To<EFDepartmentRepository>();
+            kernel.Bind<IFieldOfStudyRepository>().To<EFFieldOfStudyRepository>();
         }
     }
 }

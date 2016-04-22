@@ -11,6 +11,56 @@
     <h4>Utwórz nowe konto</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    @*<div class="form-group">
+        <label class="col-md-2 control-label">Wydział</label>
+        <div class="col-md-10">
+            @Html.DropDownList("DepartmentData")
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kierunek</label>
+        <div class="col-md-10">
+            @Html.DropDownList("FieldOfStudyData")
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Imię</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Nazwisko</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Adres</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kod pocztowy</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Miejscowość</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        </div>
+    </div>
+
     <div class="form-group">
         <label class="col-md-2 control-label">Email</label>
         <div class="col-md-10">

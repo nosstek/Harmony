@@ -65,6 +65,33 @@ namespace HarmonyWebApp.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Imię")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Adres")]
+        public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Kod pocztowy")]
+        [RegularExpression(@"\d{2}-\d{3}", ErrorMessage = "Kod pocztowy powinien mieć format 00-000")]
+        public string PostalCode { get; set; }
+
+        [Required]
+        [Display(Name = "Miejscowość")]
+        public string City { get; set; }
+
+        [Required]
+        public bool Student { get; set; }
+
+        [Required]
+        public bool FullTimeStudies { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -72,12 +99,12 @@ namespace HarmonyWebApp.Models
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Potwierdź hasło")]
+        [Compare("Password", ErrorMessage = "Podane hasła nie pasują do siebie.")]
         public string ConfirmPassword { get; set; }
     }
 

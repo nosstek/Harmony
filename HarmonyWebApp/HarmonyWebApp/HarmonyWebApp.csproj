@@ -187,6 +187,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IActivityRepository.cs" />
+    <Compile Include="Abstract\IDepartmentRepository.cs" />
+    <Compile Include="Abstract\IFieldOfStudyRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -194,12 +196,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Concrete\EFActivityRepository.cs" />
+    <Compile Include="Concrete\EFDepartmentRepository.cs" />
+    <Compile Include="Concrete\EFFieldOfStudyRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Entities\Activity.cs" />
+    <Compile Include="Entities\Department.cs" />
+    <Compile Include="Entities\FieldOfStudy.cs" />
     <Compile Include="Entities\UserWithActivities.cs" />
+    <Compile Include="Entities\UserWithFieldsOfStudy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +214,10 @@
     <Compile Include="Migrations\201604051258479_init.cs" />
     <Compile Include="Migrations\201604051258479_init.Designer.cs">
       <DependentUpon>201604051258479_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604220822407_ChangedTableStructure.cs" />
+    <Compile Include="Migrations\201604220822407_ChangedTableStructure.Designer.cs">
+      <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -237,7 +248,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -291,6 +304,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604051258479_init.resx">
       <DependentUpon>201604051258479_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604220822407_ChangedTableStructure.resx">
+      <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
