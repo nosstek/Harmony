@@ -20,6 +20,6 @@ namespace HarmonyWebApp.Entities
 
         public Department Department { get; set; }
 
-        public ICollection<UserWithFieldsOfStudy> UsersWithFieldsOfStudy { get; set; }
+        //public ICollection<UserWithFieldsOfStudy> UsersWithFieldsOfStudy { get; set; }
     }
 }

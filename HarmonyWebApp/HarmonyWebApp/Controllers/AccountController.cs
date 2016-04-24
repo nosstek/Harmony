@@ -10,6 +10,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HarmonyWebApp.Models;
 using HarmonyWebApp.Abstract;
+using HarmonyWebApp.Entities;
+using System.Collections.Generic;
+using Microsoft.Ajax.Utilities;
 
 namespace HarmonyWebApp.Controllers
 {
@@ -153,29 +156,21 @@ namespace HarmonyWebApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var departmentsList =
-                 _departmentRepository.Departments
-                .ToList()
-                .Select(s => new
-                {
-                    DepartmentId = s.Id,
-                    DepartmentName = s.DepartmentName
-                });
+            var fieldOfStudyList = from e in _fieldOfStudyRepository.FieldsOfStudy.ToList()
+                         join d in _departmentRepository.Departments.ToList()
+                             on e.DepartmentId equals d.Id
+                         select new
+                         {
+                             FieldOfStudyId = e.Id,
+                             InfoToDisplay = $"{d.DepartmentName}, Kierunek: {e.FieldOfStudyName}"
+                         };
 
-            var fieldsOfStudyList =
-                 _fieldOfStudyRepository.FieldsOfStudy
-                .ToList()
-                .Select(s => new
-                {
-                    FieldOfStudyId = s.Id,
-                    FieldOfStudyName = s.FieldOfStudyName
-                });
+            RegisterViewModel model = new RegisterViewModel()
+            {
+                CoursersList = new SelectList(fieldOfStudyList, "FieldOfStudyId", "InfoToDisplay")
+            };
 
-
-            ViewBag.DepartmentData = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
-            ViewBag.FieldOfStudyData = new SelectList(fieldsOfStudyList, "FieldOfStudyId", "FieldOfStudyName");
-
-            return View();
+            return View(model);
         }
 
         //
@@ -185,6 +180,29 @@ namespace HarmonyWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
+            var fieldOfStudyList = from e in _fieldOfStudyRepository.FieldsOfStudy.ToList()
+                         join d in _departmentRepository.Departments.ToList()
+                             on e.DepartmentId equals d.Id
+                         select new
+                         {
+                             FieldOfStudyId = e.Id,
+                             InfoToDisplay = $"{d.DepartmentName}, Kierunek: {e.FieldOfStudyName}"
+                         };
+            model.CoursersList = new SelectList(fieldOfStudyList, "FieldOfStudyId", "InfoToDisplay");
+
+            if (model.PartTimeStudies == false && model.FullTimeStudies == false)
+            {
+                TempData["CheckBoxError"] = "Nie wybrano typu studiów";
+                return View(model);
+            }
+
+            if (model.PartTimeStudies == true && model.FullTimeStudies == true)
+            {
+                TempData["CheckBoxError"] = "Wybrano niepoprawny typ studiów";
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -197,7 +215,8 @@ namespace HarmonyWebApp.Controllers
                     PostalCode = model.PostalCode,
                     City = model.City,
                     Student = true,
-                    FullTimeStudies = true
+                    FullTimeStudies = model.FullTimeStudies,
+                    FieldOfStudyId = model.FieldOfStudyId
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);

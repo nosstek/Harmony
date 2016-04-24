@@ -4,15 +4,15 @@
     ViewBag.Title = "Harmony - Logowanie";
 }
 
-<h2>@ViewBag.Title</h2>
+<img  src="~/Content/img/logo.png" title="Harmony" />
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
+                <hr/>
                 <h4>Proszę się zalogować</h4>
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })

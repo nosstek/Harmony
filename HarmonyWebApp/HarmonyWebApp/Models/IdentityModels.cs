@@ -18,6 +18,7 @@ namespace HarmonyWebApp.Models
         public string City { get; set; }
         public bool Student { get; set; }
         public bool FullTimeStudies { get; set; }
+        public int FieldOfStudyId { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -39,7 +40,7 @@ namespace HarmonyWebApp.Models
         public DbSet<UserWithActivities> UsersWithActivities { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<FieldOfStudy> FieldsOfStudy { get; set; }
-        public DbSet<UserWithFieldsOfStudy> UsersWithFieldsOfStudy { get; set; }
+        //public DbSet<UserWithFieldsOfStudy> UsersWithFieldsOfStudy { get; set; }
 
         public static ApplicationDbContext Create()
         {

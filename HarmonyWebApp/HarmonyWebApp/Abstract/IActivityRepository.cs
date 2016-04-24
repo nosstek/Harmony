@@ -8,7 +8,11 @@ namespace HarmonyWebApp.Abstract
         IEnumerable<Activity> Activities { get; }
         IEnumerable<UserWithActivities> UsersWithActivities { get; }
 
-        void SaveProduct(Activity activity);
         Activity DeleteActivity(int activityId);
+        void DeleteUserWithActivity(UserWithActivities userWithActivity);
+        Activity GetActivityById(int activityId);
+        void SaveActivity(Activity activity);
+        void SaveUpdatedActivity(Activity activity);
+        void SaveUserWithActivity(string userId, int activityId);
     }
 }

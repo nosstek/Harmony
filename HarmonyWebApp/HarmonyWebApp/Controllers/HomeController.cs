@@ -14,7 +14,7 @@ namespace HarmonyWebApp.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private IActivityRepository _repository;
+        private readonly IActivityRepository _repository;
 
         public HomeController(IActivityRepository repository)
         {
@@ -38,7 +38,7 @@ namespace HarmonyWebApp.Controllers
                 .Select(s => new
                 {
                     ActivityId = s.Id,
-                    OtherInfo = string.Format("{0} -- {1}", s.Code, s.Name)
+                    OtherInfo = $"{s.Code} -- {s.Name}"
                 });
 
             ViewBag.ActivityData = new SelectList(activityList, "ActivityId", "OtherInfo");
@@ -52,24 +52,33 @@ namespace HarmonyWebApp.Controllers
         {
             if (ActivityData != null)
             { 
-                using (ApplicationDbContext db = new ApplicationDbContext())
-                {
                     var userId = User.Identity.GetUserId();
                     var activityId = int.Parse(ActivityData);
 
-                    var disableJoin = _repository.UsersWithActivities.Any(x => x.ActivityId == activityId && x.UserId == userId);
+                    var checkExistingUserWithActivity = _repository.UsersWithActivities.Any(x => x.ActivityId == activityId && x.UserId == userId);
 
-                    if (disableJoin == false)
+                    if (checkExistingUserWithActivity == false)
                     {
-                        db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
-                        db.SaveChanges();
+                        var activity = _repository.GetActivityById(activityId);
+                        int maxSeats = activity.NumberOfSeats;
+                        int currentSeats = activity.SeatsOccupied;
+
+                        if (currentSeats == maxSeats)
+                        {
+                            TempData["brak_ miejsc"] = string.Format("Brak miejsc w wybranej grupie zajęciowej");
+                            return RedirectToAction("ActivityJoin", "Home");
+                        }
+                        
+                        activity.SeatsOccupied += 1;
+                        _repository.SaveUpdatedActivity(activity);
+                        _repository.SaveUserWithActivity(userId,activityId);
+                        
                         TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
                     }
                     else
                     {
                         TempData["message2"] = string.Format("Nie można zapisać się ponownie do tej samej grupy");
                     }
-                }
 
                 return RedirectToAction("ActivityJoin", "Home");
             }
@@ -82,31 +91,36 @@ namespace HarmonyWebApp.Controllers
 
         // POST: Zapisy na zajęcia - kod kursu
         [HttpPost]
-        public ActionResult ActivityJoinByCode(string searchString)
+        public ActionResult ActivityJoinByCode(string activityCode)
         {
-            if (searchString != null)
+            if (activityCode != null)
             {
-                using (ApplicationDbContext db = new ApplicationDbContext())
-                {
                     var userId = User.Identity.GetUserId();
-                    var activityCode = searchString;
 
-                    var result = _repository.Activities.Any(x => x.Code == activityCode);
+                    var checkExistingActivity = _repository.Activities.Any(x => x.Code == activityCode);
 
-                    if (result != false)
+                    if (checkExistingActivity != false)
                     {
-                        var checkActivityName = _repository.Activities.Where(x => x.Code == activityCode).Single();
-                        var disableJoin = _repository.UsersWithActivities.Any(x => x.ActivityId == checkActivityName.Id && x.UserId == userId);
+                        var activity = _repository.Activities.Single(x => x.Code == activityCode);
+                        var checkExistingUserWithActivity = _repository.UsersWithActivities.Any(x => x.ActivityId == activity.Id && x.UserId == userId);
 
-                        if (disableJoin == false)
+                        if (checkExistingUserWithActivity == false)
                         {
-
-                            var activity = _repository.Activities.Where(x => x.Code == activityCode).Single();
                             var activityId = activity.Id;
+                            int maxSeats = activity.NumberOfSeats;
+                            int currentSeats = activity.SeatsOccupied;
 
-                            db.UsersWithActivities.Add(new UserWithActivities() { UserId = userId, ActivityId = activityId });
-                            db.SaveChanges();
-                            TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
+                            if (currentSeats == maxSeats)
+                            {
+                                TempData["brak_ miejsc"] = string.Format("Brak miejsc w wybranej grupie zajęciowej");
+                                return RedirectToAction("ActivityJoin", "Home");
+                            }
+
+                        activity.SeatsOccupied += 1;
+                        _repository.SaveUpdatedActivity(activity);
+                        _repository.SaveUserWithActivity(userId, activityId);
+
+                        TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
                         }
                        else
                         {
@@ -118,7 +132,6 @@ namespace HarmonyWebApp.Controllers
                          TempData["message2"] = string.Format("Nie ma takiej grupy");
                     }
                     return RedirectToAction("ActivityJoin", "Home");
-                }
             }
             else
             {
@@ -130,12 +143,9 @@ namespace HarmonyWebApp.Controllers
         // GET: Kursy użytkownika
         public ActionResult UserCourses(int? page)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
-
             var userId = User.Identity.GetUserId();
-
-            var result = from e in db.UsersWithActivities.ToList()
-                         join d in db.Activities.ToList()
+            var result = from e in _repository.UsersWithActivities.ToList()
+                         join d in _repository.Activities.ToList()
                          on e.ActivityId equals d.Id
                          where e.UserId == userId
                          select d;
@@ -147,20 +157,18 @@ namespace HarmonyWebApp.Controllers
         [HttpPost]
         public ActionResult UnsubscribeCourse(int id)
         {
-            using (ApplicationDbContext db = new ApplicationDbContext())
+            var userId = User.Identity.GetUserId();
+            var activity = _repository.Activities.Single(x => x.Id == id);
+            var checkExistingUserWithActivity = _repository.UsersWithActivities.First(x => x.ActivityId == id && x.UserId == userId);
+
+            if (checkExistingUserWithActivity != null)
             {
-                var userId = User.Identity.GetUserId();
+                var userWithActivity = _repository.UsersWithActivities.Single(x => x.ActivityId == id && x.UserId == userId);
+                _repository.DeleteUserWithActivity(userWithActivity);
 
-                var userWithActivity = db.UsersWithActivities.Where(x => x.ActivityId == id && x.UserId == userId).First();
-
-                var activityDetail = _repository.Activities.Where(x => x.Id == id).Single();
-
-                if (userWithActivity != null)
-                {
-                    db.UsersWithActivities.Remove(userWithActivity);
-                    db.SaveChanges();
-                    TempData["message"] = string.Format("Wypisano z {0}", activityDetail.Name);
-                }
+                activity.SeatsOccupied -= 1;
+                _repository.SaveUpdatedActivity(activity);
+                TempData["message"] = $"Wypisano z {activity.Name}";
             }
 
             return RedirectToAction("UserCourses");

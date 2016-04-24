@@ -12,19 +12,25 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    @*<div class="form-group">
-        <label class="col-md-2 control-label">Wydział</label>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kierunek studiów</label>
         <div class="col-md-10">
-            @Html.DropDownList("DepartmentData")
+            @*@Html.DropDownListFor(m => m.FieldOfStudyId, ViewBag.FieldOfStudyData as IEnumerable<SelectListItem>)*@
+            @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursersList)
         </div>
     </div>
 
     <div class="form-group">
-        <label class="col-md-2 control-label">Kierunek</label>
+        <label class="col-md-2 control-label">Typ studiów</label>
         <div class="col-md-10">
-            @Html.DropDownList("FieldOfStudyData")
+            @Html.LabelFor(m => m.FullTimeStudies)
+            @Html.CheckBoxFor(m => m.FullTimeStudies)
+            @Html.LabelFor(m => m.PartTimeStudies)
+            @Html.CheckBoxFor(m => m.PartTimeStudies)
+
         </div>
-    </div>*@
+    </div>
 
     <div class="form-group">
         <label class="col-md-2 control-label">Imię</label>
@@ -76,9 +82,10 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Potwierdź hasło</label>
         <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Utwórz" />

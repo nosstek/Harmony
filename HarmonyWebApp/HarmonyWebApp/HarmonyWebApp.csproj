@@ -219,6 +219,14 @@
     <Compile Include="Migrations\201604220822407_ChangedTableStructure.Designer.cs">
       <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604231453136_ChangedUserTable.cs" />
+    <Compile Include="Migrations\201604231453136_ChangedUserTable.Designer.cs">
+      <DependentUpon>201604231453136_ChangedUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604232028222_ChangedTablesStructure_v2.cs" />
+    <Compile Include="Migrations\201604232028222_ChangedTablesStructure_v2.Designer.cs">
+      <DependentUpon>201604232028222_ChangedTablesStructure_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -229,13 +237,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\logo.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\AngularControllers\CascadingDropDownList.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -307,6 +324,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604220822407_ChangedTableStructure.resx">
       <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604231453136_ChangedUserTable.resx">
+      <DependentUpon>201604231453136_ChangedUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604232028222_ChangedTablesStructure_v2.resx">
+      <DependentUpon>201604232028222_ChangedTablesStructure_v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace HarmonyWebApp.Models
 {
@@ -55,10 +56,10 @@ namespace HarmonyWebApp.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Zapamiętaj mnie")]
         public bool RememberMe { get; set; }
     }
 
@@ -86,10 +87,18 @@ namespace HarmonyWebApp.Models
         public string City { get; set; }
 
         [Required]
+        public int FieldOfStudyId { get; set; }
+
+        [Required]
         public bool Student { get; set; }
 
         [Required]
+        [Display(Name = "Studia dzienne")]
         public bool FullTimeStudies { get; set; }
+
+        [Required]
+        [Display(Name = "Studia zaoczne")]
+        public bool PartTimeStudies { get; set; }
 
         [Required]
         [EmailAddress]
@@ -104,8 +113,10 @@ namespace HarmonyWebApp.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Potwierdź hasło")]
-        [Compare("Password", ErrorMessage = "Podane hasła nie pasują do siebie.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Podane hasła nie pasują do siebie.")]
         public string ConfirmPassword { get; set; }
+
+        public IEnumerable<SelectListItem> CoursersList { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -123,7 +134,7 @@ namespace HarmonyWebApp.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

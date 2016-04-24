@@ -43,7 +43,7 @@ namespace HarmonyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _repository.SaveProduct(activity);
+                _repository.SaveActivity(activity);
                 TempData["message"] = string.Format("Zapisano {0} ", activity.Name);
                 return RedirectToAction("Index");
             }
