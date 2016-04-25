@@ -6,7 +6,15 @@
 
 <div class="panel">
     <div class="panel-body">
-        <h3>Edycja @Model.Name</h3>
+        @if (@Model.Name != null)
+        {
+            <h3>Edycja @Model.Name</h3>
+        }
+        else
+        {
+            <h3>Tworzenie nowego kursu</h3>
+        }
+    
     </div>
     @using (Html.BeginForm("Edit", "Admin"))
     {
@@ -14,7 +22,7 @@
             @Html.HiddenFor(m => m.Id)
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                if (property.PropertyName != "Id")
+                if (property.PropertyName != "Id" && property.PropertyName != "UsersWithActivities")
                 {
                     <div class="form-group">
                         <label>@(property.DisplayName ?? property.PropertyName)</label>
@@ -33,7 +41,7 @@
 
         <div class="panel-footer">
             <input type="submit" value="Zapisz" class="btn btn-primary" />
-            @Html.ActionLink("Anuluj i wróć do listy", "Index", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Anuluj i wróć do listy", "CoursesPage", null, new { @class = "btn btn-default" })
         </div>
 
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using PagedList;
 using PagedList.Mvc;
 
@@ -46,7 +47,7 @@ namespace HarmonyWebApp.Controllers
                 .Select(s => new
                 {
                     ActivityId = s.Id,
-                    OtherInfo = $"{s.Code} -- {s.Name}"
+                    OtherInfo = $"{s.Code} - {s.Name} - ({s.SeatsOccupied}/{s.NumberOfSeats})"
                 });
 
             ViewBag.ActivityData = new SelectList(activityList, "ActivityId", "OtherInfo");
@@ -58,7 +59,7 @@ namespace HarmonyWebApp.Controllers
         [HttpPost]
         public ActionResult ActivityJoin(string ActivityData)
         {
-            if (ActivityData != null)
+            if (!ActivityData.IsNullOrWhiteSpace())
             {
                 var userId = User.Identity.GetUserId();
                 var activityId = int.Parse(ActivityData);

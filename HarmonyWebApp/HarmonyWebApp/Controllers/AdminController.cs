@@ -21,11 +21,9 @@ namespace HarmonyWebApp.Controllers
         }
 
         // GET: Strona główna
-        public ActionResult Index(int? page)
+        public ActionResult Index()
         {
-
-            var result = _repository.Activities;
-            return View(result.ToList().ToPagedList(page ?? 1, 10));
+            return View();
         }
 
         // GET: Edycja
@@ -45,7 +43,7 @@ namespace HarmonyWebApp.Controllers
             {
                 _repository.SaveActivity(activity);
                 TempData["message"] = string.Format("Zapisano {0} ", activity.Name);
-                return RedirectToAction("Index");
+                return RedirectToAction("CoursesPage");
             }
             else
             {
@@ -63,13 +61,36 @@ namespace HarmonyWebApp.Controllers
             {
                 TempData["message"] = string.Format("Usunięto {0}", deletedActivity.Name);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("CoursesPage");
         }
 
         // GET: Tworzenie
         public ActionResult Create()
         {
             return View("Edit", new Activity());
+        }
+
+        // GET: Strona z listą kursów
+        public ActionResult CoursesPage(int? page, string searchString, string searchBy)
+        {
+            var result = _repository.Activities;
+
+            if (searchBy == "Code")
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    result = result.Where(s => s.Code == searchString);
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    result = result.Where(s => s.Name.StartsWith(searchString));
+                }
+            }
+
+            return View(result.ToList().ToPagedList(page ?? 1, 10));
         }
     }
 }

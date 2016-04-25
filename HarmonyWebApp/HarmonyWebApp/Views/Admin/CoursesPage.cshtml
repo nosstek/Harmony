@@ -1,0 +1,93 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<HarmonyWebApp.Entities.Activity>
+
+@{
+    ViewBag.Title = "Harmony - Administracja";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Panel administacyjny - Kursy które są w bazie </h3>
+
+
+<p>
+    @using (Html.BeginForm("CoursesPage", "Admin", FormMethod.Get))
+    {
+        <p>
+            Szukaj za pomocą:
+            @Html.RadioButton("searchBy", "Name", true) Nazwa
+            @Html.RadioButton("searchBy", "Code") Kod grupy<br/>
+            @Html.TextBox("searchString")
+            <input type="submit" value="Szukaj"/>
+        </p>
+    }
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Wszystkie zajęcia</h3>
+    </div>
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th>Kod</th>
+            <th>Nazwa</th>
+            <th>Opis</th>
+            <th>Start</th>
+            <th>Koniec</th>
+            <th>Częstość zajęć</th>
+            <th>Studia stacjonarne</th>
+            <th>Prowadzący</th>
+            <th>Miejsce</th>
+            <th>Forma kursu</th>
+            <th>Ilość miejsc</th>
+            <th>Ects</th>
+            <th>Wydział</th>
+            <th>Kierunek</th>
+            <th>Akcje</th>
+        </tr>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="15"> Brak zajęć o podanym kryterium </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Code</td>
+                    <td>@Html.ActionLink(item.Name, "Edit", new {item.Id})</td>
+                    <td>@item.Description</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@item.Every_x_Days dni</td>
+                    <td>@(item.FreeWeekends ? "TAK" : "NIE")</td>
+                    <td>@item.Instructor</td>
+                    <td>@item.Place</td>
+                    <td>@item.CourseForm</td>
+                    <td>@item.SeatsOccupied / @item.NumberOfSeats</td>
+                    <td>@item.Ects</td>
+                    <td>@item.DepartmentId</td>
+                    <td>@item.FieldOfStudyId</td>
+
+                    <td>
+                        @using (Html.BeginForm("Delete", "Admin"))
+                        {
+                            @Html.Hidden("id", item.Id)
+                            <input type="submit" value="Usuń"/>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("CoursesPage", new {page, searchBy = Request.QueryString["searchBy"], searchString = Request.QueryString["searchString"]}),
+        new PagedListRenderOptions() {Display = PagedListDisplayMode.IfNeeded})
+
+</div>
+
+<div class="panel-footer">
+    @Html.ActionLink("Stwórz nowy kurs", "Create", null, new {@class = "btn btn-default"})
+</div>
