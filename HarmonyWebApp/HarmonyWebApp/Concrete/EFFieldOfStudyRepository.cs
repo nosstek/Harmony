@@ -20,7 +20,13 @@ namespace HarmonyWebApp.Concrete
             }
         }
 
-
-
+        public int GetDepartmentId(int fieldOfStudyId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var result = context.FieldsOfStudy.Single(x => x.Id == fieldOfStudyId);
+                return result.DepartmentId;
+            }
+        }
     }
 }

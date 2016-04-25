@@ -6,5 +6,7 @@ namespace HarmonyWebApp.Abstract
     public interface IFieldOfStudyRepository
     {
         IEnumerable<FieldOfStudy> FieldsOfStudy { get; }
+
+        int GetDepartmentId(int fieldOfStudyId);
     }
 }

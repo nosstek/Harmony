@@ -33,6 +33,7 @@ namespace HarmonyWebApp.Infrastructure
             kernel.Bind<IActivityRepository>().To<EFActivityRepository>();
             kernel.Bind<IDepartmentRepository>().To<EFDepartmentRepository>();
             kernel.Bind<IFieldOfStudyRepository>().To<EFFieldOfStudyRepository>();
+            kernel.Bind<IUserRepository>().To<EFUserRepository>();
         }
     }
 }

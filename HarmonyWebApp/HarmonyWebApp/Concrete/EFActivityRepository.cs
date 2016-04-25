@@ -21,6 +21,41 @@ namespace HarmonyWebApp.Concrete
             }
         }
 
+        public IEnumerable<ActivityViewModel> ActivitiesViewInfo
+        {
+            get
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    var activitiesInfo = from e in context.Activities.ToList()
+                        join f in context.FieldsOfStudy.ToList()
+                            on e.FieldOfStudyId equals f.Id into eGroup
+                        from f in eGroup.DefaultIfEmpty()
+                        join d in context.Departments.ToList()
+                            on e.DepartmentId equals d.Id into eGroup2
+                        from d in eGroup2.DefaultIfEmpty()
+                        select new ActivityViewModel()
+                        {
+                            Name = e.Name,
+                            Code = e.Code,
+                            Description = e.Description,
+                            StartDate = e.StartDate,
+                            EndDate = e.EndDate,
+                            Instructor = e.Instructor,
+                            Place = e.Place,
+                            CourseForm = e.CourseForm,
+                            NumberOfSeats = e.NumberOfSeats,
+                            SeatsOccupied = e.SeatsOccupied,
+                            Ects = e.Ects,
+                            DepartmentName = d == null ? "Wszystkie wydziały" : d.DepartmentName,
+                            FieldOfStudyName = f == null ? "Wszystkie kierunki" : f.FieldOfStudyName
+                        };
+
+                    return activitiesInfo.ToList();
+                }
+            }
+        }
+
         public IEnumerable<UserWithActivities> UsersWithActivities
         {
             get

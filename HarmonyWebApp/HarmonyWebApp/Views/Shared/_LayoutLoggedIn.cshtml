@@ -42,6 +42,14 @@
         {
             <div class="alert alert-danger"> @TempData["brak_ miejsc"] </div>
         }
+        @if (TempData["niepoprawny_kierunek"] != null)
+        {
+            <div class="alert alert-danger"> @TempData["niepoprawny_kierunek"] </div>
+        }
+        @if (TempData["niepoprawny_wydzial"] != null)
+        {
+            <div class="alert alert-danger"> @TempData["niepoprawny_wydzial"] </div>
+        }
         @RenderBody()
         <hr />
         <footer>

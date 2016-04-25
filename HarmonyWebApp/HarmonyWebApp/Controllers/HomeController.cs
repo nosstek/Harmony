@@ -15,18 +15,26 @@ namespace HarmonyWebApp.Controllers
     public class HomeController : Controller
     {
         private readonly IActivityRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly IFieldOfStudyRepository _fieldOfStudyRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public HomeController(IActivityRepository repository)
+        public HomeController(IActivityRepository repository, IUserRepository userRepository, IFieldOfStudyRepository fieldOfStudyRepository, IDepartmentRepository departmentRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
+            _fieldOfStudyRepository = fieldOfStudyRepository;
+            _departmentRepository = departmentRepository;
         }
 
         // GET: Home
         public ActionResult Index()
         {
-            var activitiesList = _repository.Activities;
 
-            return View(activitiesList);
+            var userId = User.Identity.GetUserId();
+            var userInfo = _userRepository.GetUserViewInfo(userId);
+
+            return View(userInfo);
         }
 
         // GET: Zapisy na zajęcia
@@ -51,34 +59,51 @@ namespace HarmonyWebApp.Controllers
         public ActionResult ActivityJoin(string ActivityData)
         {
             if (ActivityData != null)
-            { 
-                    var userId = User.Identity.GetUserId();
-                    var activityId = int.Parse(ActivityData);
+            {
+                var userId = User.Identity.GetUserId();
+                var activityId = int.Parse(ActivityData);
 
-                    var checkExistingUserWithActivity = _repository.UsersWithActivities.Any(x => x.ActivityId == activityId && x.UserId == userId);
+                var checkExistingUserWithActivity =
+                    _repository.UsersWithActivities.Any(x => x.ActivityId == activityId && x.UserId == userId);
 
-                    if (checkExistingUserWithActivity == false)
+                if (checkExistingUserWithActivity == false)
+                {
+                    var activity = _repository.GetActivityById(activityId);
+                    int maxSeats = activity.NumberOfSeats;
+                    int currentSeats = activity.SeatsOccupied;
+                    var userInfo = _userRepository.GetUserInfo(userId);
+                    var userDepartmentId = _fieldOfStudyRepository.GetDepartmentId(userInfo.FieldOfStudyId);
+
+                    if (currentSeats == maxSeats)
                     {
-                        var activity = _repository.GetActivityById(activityId);
-                        int maxSeats = activity.NumberOfSeats;
-                        int currentSeats = activity.SeatsOccupied;
+                        TempData["brak_ miejsc"] = string.Format("Brak miejsc w wybranej grupie zajęciowej");
+                        return RedirectToAction("ActivityJoin", "Home");
+                    }
 
-                        if (currentSeats == maxSeats)
-                        {
-                            TempData["brak_ miejsc"] = string.Format("Brak miejsc w wybranej grupie zajęciowej");
-                            return RedirectToAction("ActivityJoin", "Home");
-                        }
-                        
-                        activity.SeatsOccupied += 1;
-                        _repository.SaveUpdatedActivity(activity);
-                        _repository.SaveUserWithActivity(userId,activityId);
-                        
-                        TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
-                    }
-                    else
+                    if ((activity.FieldOfStudyId != userInfo.FieldOfStudyId) && (activity.FieldOfStudyId != 0))
                     {
-                        TempData["message2"] = string.Format("Nie można zapisać się ponownie do tej samej grupy");
+                        TempData["niepoprawny_kierunek"] =
+                            string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego kierunku");
+                        return RedirectToAction("ActivityJoin", "Home");
                     }
+
+                    if ((activity.DepartmentId != userDepartmentId) && (activity.DepartmentId != 0))
+                    {
+                        TempData["niepoprawny_wydzial"] =
+                            string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego wydziału");
+                        return RedirectToAction("ActivityJoin", "Home");
+                    }
+                    
+                    activity.SeatsOccupied += 1;
+                    _repository.SaveUpdatedActivity(activity);
+                    _repository.SaveUserWithActivity(userId, activityId);
+
+                    TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
+                }
+                else
+                {
+                    TempData["message2"] = string.Format("Nie można zapisać się ponownie do tej samej grupy");
+                }
 
                 return RedirectToAction("ActivityJoin", "Home");
             }
@@ -102,23 +127,40 @@ namespace HarmonyWebApp.Controllers
                     if (checkExistingActivity != false)
                     {
                         var activity = _repository.Activities.Single(x => x.Code == activityCode);
-                        var checkExistingUserWithActivity = _repository.UsersWithActivities.Any(x => x.ActivityId == activity.Id && x.UserId == userId);
+                        var checkExistingUserWithActivity =
+                            _repository.UsersWithActivities.Any(x => x.ActivityId == activity.Id && x.UserId == userId);
 
                         if (checkExistingUserWithActivity == false)
                         {
                             var activityId = activity.Id;
                             int maxSeats = activity.NumberOfSeats;
                             int currentSeats = activity.SeatsOccupied;
+                            var userInfo = _userRepository.GetUserInfo(userId);
+                            var userDepartmentId = _fieldOfStudyRepository.GetDepartmentId(userInfo.FieldOfStudyId);
 
-                            if (currentSeats == maxSeats)
+                        if (currentSeats == maxSeats)
                             {
                                 TempData["brak_ miejsc"] = string.Format("Brak miejsc w wybranej grupie zajęciowej");
                                 return RedirectToAction("ActivityJoin", "Home");
                             }
 
-                        activity.SeatsOccupied += 1;
-                        _repository.SaveUpdatedActivity(activity);
-                        _repository.SaveUserWithActivity(userId, activityId);
+                            if ((activity.FieldOfStudyId != userInfo.FieldOfStudyId) && (activity.FieldOfStudyId != 0))
+                            {
+                                TempData["niepoprawny_kierunek"] =
+                                    string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego kierunku");
+                                return RedirectToAction("ActivityJoin", "Home");
+                            }
+
+                            if ((activity.DepartmentId != userDepartmentId) && (activity.DepartmentId != 0))
+                            {
+                                TempData["niepoprawny_wydzial"] =
+                                    string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego wydziału");
+                                return RedirectToAction("ActivityJoin", "Home");
+                            }
+
+                            activity.SeatsOccupied += 1;
+                            _repository.SaveUpdatedActivity(activity);
+                            _repository.SaveUserWithActivity(userId, activityId);
 
                         TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
                         }
@@ -177,7 +219,7 @@ namespace HarmonyWebApp.Controllers
         // GET: Przeglądanie kursów
         public ActionResult OverviewCourses(string searchString, string searchBy, string sort, int? page)
         {
-            var movies = _repository.Activities;
+            var movies = _repository.ActivitiesViewInfo;
 
             if (searchBy == "Code")
             {

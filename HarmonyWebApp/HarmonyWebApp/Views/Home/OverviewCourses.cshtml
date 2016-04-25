@@ -1,6 +1,6 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<HarmonyWebApp.Entities.Activity>
+@model IPagedList<HarmonyWebApp.Models.ActivityViewModel>
 
 
 @{
@@ -61,27 +61,8 @@
                     <td>@item.CourseForm</td>
                     <td>@item.SeatsOccupied / @item.NumberOfSeats</td>
                     <td>@item.Ects</td>
-
-
-                    @if (item.FieldOfStudyId == 0)
-                    {
-                        <td>Wszystkie kierunki</td>
-                    }
-                    else
-                    {
-                        <td>@item.FieldOfStudyId</td>
-                    }
-
-                    @if (item.DepartmentId == 0)
-                    {
-                        <td>Wszystkie wydziały</td>
-                    }
-                    else
-                    {
-                        <td>@item.DepartmentId</td>
-                    }
-
-
+                    <td>@item.FieldOfStudyName</td>
+                    <td>@item.DepartmentName</td>
                 </tr>
             }
         }

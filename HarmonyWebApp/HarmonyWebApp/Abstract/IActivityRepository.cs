@@ -1,11 +1,13 @@
 ﻿using HarmonyWebApp.Entities;
 using System.Collections.Generic;
+using HarmonyWebApp.Models;
 
 namespace HarmonyWebApp.Abstract
 {
     public interface IActivityRepository
     {
         IEnumerable<Activity> Activities { get; }
+        IEnumerable<ActivityViewModel> ActivitiesViewInfo { get; }
         IEnumerable<UserWithActivities> UsersWithActivities { get; }
 
         Activity DeleteActivity(int activityId);

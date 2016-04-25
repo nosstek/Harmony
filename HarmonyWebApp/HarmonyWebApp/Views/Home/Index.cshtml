@@ -1,8 +1,15 @@
-﻿@model IEnumerable<HarmonyWebApp.Entities.Activity>
+﻿@model HarmonyWebApp.Models.UserInfoViewModel
 
 @{
     ViewBag.Title = "Harmony - Strona główna";
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
-<h2>Strona główna</h2>
+<h3>Twoje dane </h3>
+Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br/>
+Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
+Typ studiów: <strong>@(Model.FullTimeStudies ? "Dzienne" : "Zaoczne")</strong> <br/>
+<div class="text-success">
+    <h4>@Model.DepartmentName</h4>
+    <h4>Kierunek: @Model.FieldOfStudyName</h4>
+</div>
