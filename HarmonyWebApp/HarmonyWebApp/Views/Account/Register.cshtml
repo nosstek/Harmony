@@ -1,0 +1,98 @@
+﻿@model HarmonyWebApp.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Harmony - Rejestracja";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Utwórz nowe konto</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kierunek studiów</label>
+        <div class="col-md-10">
+            @*@Html.DropDownListFor(m => m.FieldOfStudyId, ViewBag.FieldOfStudyData as IEnumerable<SelectListItem>)*@
+            @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursersList)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Typ studiów</label>
+        <div class="col-md-10">
+            @Html.LabelFor(m => m.FullTimeStudies)
+            @Html.CheckBoxFor(m => m.FullTimeStudies)
+            @Html.LabelFor(m => m.PartTimeStudies)
+            @Html.CheckBoxFor(m => m.PartTimeStudies)
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Imię</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Nazwisko</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Adres</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Kod pocztowy</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Miejscowość</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label">Email</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Hasło</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Potwierdź hasło</label>
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Utwórz" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

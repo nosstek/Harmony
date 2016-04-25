@@ -1,0 +1,49 @@
+﻿@model HarmonyWebApp.Entities.Activity
+@{
+    ViewBag.Title = "Harmony - Administracja";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-body">
+        @if (@Model.Name != null)
+        {
+            <h3>Edycja @Model.Name</h3>
+        }
+        else
+        {
+            <h3>Tworzenie nowego kursu</h3>
+        }
+    
+    </div>
+    @using (Html.BeginForm("Edit", "Admin"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Id" && property.PropertyName != "UsersWithActivities")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "description")
+                        {
+                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            @Html.ActionLink("Anuluj i wróć do listy", "CoursesPage", null, new { @class = "btn btn-default" })
+        </div>
+
+    }
+</div>
+

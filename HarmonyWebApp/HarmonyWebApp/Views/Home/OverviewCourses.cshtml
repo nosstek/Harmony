@@ -1,0 +1,72 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<HarmonyWebApp.Models.ActivityViewModel>
+
+
+@{
+    ViewBag.Title = "Harmony - Przeglądanie kursów";
+    Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
+}
+
+<h3>Przeglądanie dostępnych kursów</h3>
+
+<p>
+    @using (Html.BeginForm("OverviewCourses", "Home", FormMethod.Get))
+    {
+    <p>
+        Szukaj za pomocą:
+        @Html.RadioButton("searchBy", "Name", true) Nazwa
+        @Html.RadioButton("searchBy", "Code") Kod grupy<br />
+        @Html.TextBox("searchString")
+        <input type="submit" value="Szukaj" />
+    </p>
+    }
+    </p>
+
+    <table class="table table-striped table-condensed table-bordered">
+
+        <tr>
+            <th>@Html.ActionLink("Kod grupy", "OverviewCourses", new { sort = ViewBag.SortByCode })</th>
+            <th>@Html.ActionLink("Nazwa", "OverviewCourses", new { sort = ViewBag.SortByName })</th>
+            <th>@Html.ActionLink("Opis", "OverviewCourses", new { sort = ViewBag.SortByDescription })</th>
+            <th>@Html.ActionLink("Rozpoczęcie", "OverviewCourses", new { sort = ViewBag.SortByStart })</th>
+            <th>@Html.ActionLink("Zakończenie", "OverviewCourses", new { sort = ViewBag.SortByEnd })</th>
+            <th>@Html.ActionLink("Prowadzący", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Miejsce", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Forma", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Ilość zajętych miejsc", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Ects", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Kierunek", "OverviewCourses")</th>
+            <th>@Html.ActionLink("Wydział", "OverviewCourses")</th>
+        </tr>
+
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="5"> Brak zajęć o podanym kryterium </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@item.Instructor</td>
+                    <td>@item.Place</td>
+                    <td>@item.CourseForm</td>
+                    <td>@item.SeatsOccupied / @item.NumberOfSeats</td>
+                    <td>@item.Ects</td>
+                    <td>@item.FieldOfStudyName</td>
+                    <td>@item.DepartmentName</td>
+                </tr>
+            }
+        }
+
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("OverviewCourses", new { page, searchBy = Request.QueryString["searchBy"], searchString = Request.QueryString["searchString"] }),
+new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

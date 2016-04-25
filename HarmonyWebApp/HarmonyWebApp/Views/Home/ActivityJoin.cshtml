@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Harmony - Zapisy";
+    Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
+}
+
+<h3>Zapisy na zajęcia</h3>
+
+@using (Html.BeginForm("ActivityJoin", "Home"))
+{
+    @Html.DropDownList("ActivityData", "Wybierz kurs z listy")
+    <input type="submit" value="Zapisz się" />
+}
+
+<br />
+
+@using (Html.BeginForm("ActivityJoinByCode", "Home"))
+{
+    <p>
+        Kod kursu: @Html.TextBox("ActivityCode")
+        <input type="submit" value="Zapisz się" />
+    </p>
+}
