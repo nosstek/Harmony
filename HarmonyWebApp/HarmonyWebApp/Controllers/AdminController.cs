@@ -13,11 +13,19 @@ namespace HarmonyWebApp.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private IActivityRepository _repository;
+        private readonly IActivityRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IFieldOfStudyRepository _fieldOfStudyRepository;
 
-        public AdminController(IActivityRepository repositry)
+        public AdminController(IActivityRepository repositry, IUserRepository userRepository,IDepartmentRepository departmentRepository, IFieldOfStudyRepository fieldOfStudyRepository)
+
         {
             _repository = repositry;
+            _userRepository = userRepository;
+            _departmentRepository = departmentRepository;
+            _fieldOfStudyRepository = fieldOfStudyRepository;
+
         }
 
         // GET: Strona główna
@@ -92,5 +100,95 @@ namespace HarmonyWebApp.Controllers
 
             return View(result.ToList().ToPagedList(page ?? 1, 10));
         }
+
+
+        public ActionResult UsersData()
+        {
+
+            var UsersData = _userRepository.ApplicationUsers;
+            return View(UsersData);
+        }
+
+
+        
+        public ActionResult EditUsersActivities(string id)
+        {
+
+            var result = from e in _repository.UsersWithActivities.Where(x => x.UserId == id).ToList()
+                join f in _userRepository.ApplicationUsers.ToList()
+                    on e.UserId equals f.Id
+                join d in _repository.Activities.ToList()
+                    on e.ActivityId equals d.Id
+               join g in _departmentRepository.Departments.ToList()
+                     on d.DepartmentId equals g.Id
+                join h in _fieldOfStudyRepository.FieldsOfStudy.ToList()
+                     on d.FieldOfStudyId equals h.Id
+
+                select new UsersActivitiesViewModel()
+                {
+                    UserId = f.Id,
+                    FirstName = f.FirstName,
+                    LastName = f.LastName,
+                    CourseId = d.Id,
+                    CourseCode = d.Code,
+                    CourseName = d.Name,
+                    NumberOfSeats = d.NumberOfSeats,
+                    SeatsOccupied = d.SeatsOccupied,
+                    CourseForm = d.CourseForm,
+                    FieldName = h.FieldOfStudyName,
+                    DepartmentName = g.DepartmentName
+                };
+
+            return View(result);
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult DeleteUserFromActivity(UsersActivitiesViewModel usersActivitiesViewModel)
+        {
+
+            //    _repository.DeleteUserWithActivity(userWithActivity);
+            //       activity.SeatsOccupied -= 1;
+            //          _repository.SaveUpdatedActivity(activity);
+
+
+
+
+
+
+            return RedirectToAction("EditUsersActivities","Admin", usersActivitiesViewModel.UserId);
+
+        }
+
+
+
+        [HttpGet]
+        public ActionResult EditUser(string id)
+        {
+            IdentityViewModel identityViewModel = _userRepository.IdentitiesViewInfo.FirstOrDefault(u => u.Id == id);
+           
+            return View(identityViewModel);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditUser(IdentityViewModel identityViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _userRepository.SaveUserData(identityViewModel);
+                TempData["message"] = string.Format("Zapisano {0} {1} ", identityViewModel.FirstName, identityViewModel.LastName);
+                return RedirectToAction("UsersData");
+            }
+            else
+            {
+                // błąd 
+                return View(identityViewModel);
+            }
+        }
+
+    
     }
 }

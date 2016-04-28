@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<HarmonyWebApp.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Dane użytkowników";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Dane użytkowników</h2>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Wszyscy użytkownicy</h3>
+    </div>
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th>Imię i nazwisko</th>
+            <th>Adres</th>
+            <th>Kod pocztowy</th>
+            <th>Miasto</th>
+            <th>Studia stacjonarne</th>
+            <th>Id kierunku</th>
+            <th>Akcje</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr><td>@Html.ActionLink(item.FirstName, "EditUser", new { item.Id })  @Html.ActionLink(item.LastName, "EditUser", new { item.Id })</td>
+            <td>@item.Address</td>
+            <td>@item.PostalCode</td>
+            <td>@item.City</td>
+            <td>@item.FullTimeStudies</td>
+            <td>@item.FieldOfStudyId</td>
+            <td> @Html.ActionLink("Zajęcia użytkownika", "EditUsersActivities", new { item.Id }, new { @class = "btn btn-default" }) </td> </tr>
+               
+           
+        }
+</table>
+</div>
+
+
+
+
+
+

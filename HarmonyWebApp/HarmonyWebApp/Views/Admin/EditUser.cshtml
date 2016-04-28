@@ -1,0 +1,41 @@
+﻿
+@using HarmonyWebApp.Models
+@using Microsoft.AspNet.Identity
+@model  HarmonyWebApp.Models.IdentityViewModel
+
+@{
+    ViewBag.Title = "Administracja - edycja użytkownika";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<div class="panel">
+<div class="panel-body">
+    <h3>Edycja użytkownika: @Model.FirstName @Model.LastName</h3>
+</div>
+
+
+    @using (Html.BeginForm("EditUser", "Admin"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor( m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+
+                <div class="form-group">
+                    <label>@property.PropertyName</label>
+                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                </div>
+
+            }
+            
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            @Html.ActionLink("Anuluj i wróć do listy użytkowników", "UsersData", null, new { @class = "btn btn-default" })
+        </div>
+
+    }
+</div>

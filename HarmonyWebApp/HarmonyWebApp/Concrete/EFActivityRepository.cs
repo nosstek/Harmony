@@ -5,6 +5,7 @@ using HarmonyWebApp.Abstract;
 using HarmonyWebApp.Entities;
 using HarmonyWebApp.Models;
 using System.Linq;
+using AutoMapper;
 
 namespace HarmonyWebApp.Concrete
 {
@@ -128,6 +129,7 @@ namespace HarmonyWebApp.Concrete
 
                     if (dbEntry != null)
                     {
+
                         dbEntry.Name = activity.Name;
                         dbEntry.Code = activity.Code;
                         dbEntry.Description = activity.Description;
