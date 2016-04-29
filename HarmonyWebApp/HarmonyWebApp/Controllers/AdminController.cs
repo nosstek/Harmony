@@ -31,7 +31,9 @@ namespace HarmonyWebApp.Controllers
         // GET: Strona główna
         public ActionResult Index()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var userInfo = _userRepository.GetUserViewInfo(userId);
+            return View(userInfo);
         }
 
         // GET: Edycja
@@ -110,7 +112,7 @@ namespace HarmonyWebApp.Controllers
         }
 
 
-        
+        [HttpGet]
         public ActionResult EditUsersActivities(string id)
         {
 
@@ -148,17 +150,16 @@ namespace HarmonyWebApp.Controllers
         [HttpPost]
         public ActionResult DeleteUserFromActivity(UsersActivitiesViewModel usersActivitiesViewModel)
         {
+            var activity = _repository.Activities.Single(x => x.Id == usersActivitiesViewModel.CourseId);
+            var userWithActivity = _repository.UsersWithActivities.Single(x => x.ActivityId == usersActivitiesViewModel.CourseId && x.UserId == usersActivitiesViewModel.UserId);
 
-            //    _repository.DeleteUserWithActivity(userWithActivity);
-            //       activity.SeatsOccupied -= 1;
-            //          _repository.SaveUpdatedActivity(activity);
+            _repository.DeleteUserWithActivity(userWithActivity);
+            activity.SeatsOccupied -= 1;
+            _repository.SaveUpdatedActivity(activity);
 
-
-
-
-
-
-            return RedirectToAction("EditUsersActivities","Admin", usersActivitiesViewModel.UserId);
+            TempData["message"] = $"Wypisano użytkownika {usersActivitiesViewModel.FirstName} {usersActivitiesViewModel.LastName} z kursu {activity.Name}";
+            
+            return RedirectToAction("EditUsersActivities", "Admin", new { id=usersActivitiesViewModel.UserId});
 
         }
 

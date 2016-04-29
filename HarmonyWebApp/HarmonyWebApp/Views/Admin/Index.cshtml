@@ -1,6 +1,17 @@
-﻿@{
+﻿@model HarmonyWebApp.Models.UserInfoViewModel
+
+@{
     ViewBag.Title = "Harmony - Administracja";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h3> Strona główna - panel administratora </h3>
+
+
+Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br />
+Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
+
+
+<div class="text-success">
+    <h4>Posiadasz uprawnienia administratora Harmony</h4>
+</div>

@@ -41,8 +41,15 @@ namespace HarmonyWebApp.Controllers
         // GET: Zapisy na zajęcia
         public ActionResult ActivityJoin()
         {
+
+
+
+            var userId = User.Identity.GetUserId();
+            int userFieldOfStudyId = _userRepository.ApplicationUsers.Single(u => u.Id == userId).FieldOfStudyId;
+     
+
             var activityList =
-                _repository.Activities
+                _repository.Activities.Where( u => u.FieldOfStudyId == userFieldOfStudyId)
                 .ToList()
                 .Select(s => new
                 {
