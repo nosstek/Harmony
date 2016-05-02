@@ -83,7 +83,8 @@ namespace HarmonyWebApp.Controllers
         // GET: Strona z listą kursów
         public ActionResult CoursesPage(int? page, string searchString, string searchBy)
         {
-            var result = _repository.Activities;
+            //var result = _repository.Activities;
+            var result = _repository.ActivitiesViewInfo;
 
             if (searchBy == "Code")
             {
@@ -107,7 +108,8 @@ namespace HarmonyWebApp.Controllers
         public ActionResult UsersData()
         {
 
-            var UsersData = _userRepository.ApplicationUsers;
+            var UsersData = _userRepository.UsersInfoViewModels();
+
             return View(UsersData);
         }
 
@@ -168,8 +170,23 @@ namespace HarmonyWebApp.Controllers
         [HttpGet]
         public ActionResult EditUser(string id)
         {
+
+            var fieldOfStudyList = from e in _fieldOfStudyRepository.FieldsOfStudy.ToList()
+                                   join d in _departmentRepository.Departments.ToList()
+                                       on e.DepartmentId equals d.Id
+                                   select new
+                                   {
+                                       FieldOfStudyId = e.Id,
+                                       InfoToDisplay = $"{d.DepartmentName}, Kierunek: {e.FieldOfStudyName}"
+                                   };
+
+
             IdentityViewModel identityViewModel = _userRepository.IdentitiesViewInfo.FirstOrDefault(u => u.Id == id);
-           
+
+            identityViewModel.DepartmentId = _fieldOfStudyRepository.GetDepartmentId(identityViewModel.FieldOfStudyId);
+
+            identityViewModel.CoursesList = new SelectList(fieldOfStudyList, "FieldOfStudyId", "InfoToDisplay");
+
             return View(identityViewModel);
         }
 
@@ -179,6 +196,15 @@ namespace HarmonyWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = identityViewModel.Id;
+                var fieldOfStudyOld = _userRepository.ApplicationUsers.Single(u => u.Id == userId).FieldOfStudyId;
+
+                if (identityViewModel.FieldOfStudyId != fieldOfStudyOld)
+                {
+                    _repository.DeleteUserFromAllActivities(userId);
+
+                }
+               
                 _userRepository.SaveUserData(identityViewModel);
                 TempData["message"] = string.Format("Zapisano {0} {1} ", identityViewModel.FirstName, identityViewModel.LastName);
                 return RedirectToAction("UsersData");

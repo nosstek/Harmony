@@ -3,6 +3,8 @@ using HarmonyWebApp.Abstract;
 using HarmonyWebApp.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.EnterpriseServices;
+using HarmonyWebApp.Concrete;
 
 namespace HarmonyWebApp.Concrete
 {
@@ -28,6 +30,7 @@ namespace HarmonyWebApp.Concrete
                         on f.DepartmentId equals d.Id
                     select new UserInfoViewModel()
                     {
+                        Id = e.Id,
                         FirstName = e.FirstName,
                         LastName = e.LastName,
                         Address = e.Address,
@@ -36,13 +39,40 @@ namespace HarmonyWebApp.Concrete
                         Student = e.Student,
                         FullTimeStudies = e.FullTimeStudies,
                         DepartmentName = d.DepartmentName,
-                        FieldOfStudyName = f.FieldOfStudyName
+                        FieldOfStudyName = f.FieldOfStudyName,
+                        
                     };
                 return userInfo.SingleOrDefault();
             }
         }
 
 
+        public IEnumerable<UserInfoViewModel> UsersInfoViewModels()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var usersInfo = from e in context.Users.ToList()
+                               join f in context.FieldsOfStudy.ToList()
+                                   on e.FieldOfStudyId equals f.Id
+                               join d in context.Departments.ToList()
+                                   on f.DepartmentId equals d.Id
+                               select new UserInfoViewModel()
+                               {
+                                   Id= e.Id,
+                                   FirstName = e.FirstName,
+                                   LastName = e.LastName,
+                                   Address = e.Address,
+                                   PostalCode = e.PostalCode,
+                                   City = e.City,
+                                   Student = e.Student,
+                                   FullTimeStudies = e.FullTimeStudies,
+                                   DepartmentName = d.DepartmentName,
+                                   FieldOfStudyName = f.FieldOfStudyName,
+
+                               };
+                return usersInfo.ToList();
+            }
+        }
 
 
 
@@ -54,8 +84,10 @@ namespace HarmonyWebApp.Concrete
             {
                 using (var context = new ApplicationDbContext())
                 {
-
+                 
                     var identitiesInfo = from e in context.Users.ToList()
+                                                           
+    
                         select new IdentityViewModel()
                         {
                             Id = e.Id,
@@ -66,7 +98,8 @@ namespace HarmonyWebApp.Concrete
                             City = e.City,
                             Student = e.Student,
                             FullTimeStudies = e.FullTimeStudies,
-                            FieldOfStudyId = e.FieldOfStudyId
+                            FieldOfStudyId = e.FieldOfStudyId,
+                            
                         };
 
                     return identitiesInfo.ToList();
@@ -105,7 +138,7 @@ namespace HarmonyWebApp.Concrete
                     dbEntry.City = identityViewModel.City;
                     dbEntry.FullTimeStudies = identityViewModel.FullTimeStudies;
                     dbEntry.FieldOfStudyId = identityViewModel.FieldOfStudyId;
-
+                    
                 }
 
                 context.SaveChanges();

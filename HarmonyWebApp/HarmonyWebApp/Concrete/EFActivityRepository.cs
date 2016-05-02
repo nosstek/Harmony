@@ -37,11 +37,14 @@ namespace HarmonyWebApp.Concrete
                         from d in eGroup2.DefaultIfEmpty()
                         select new ActivityViewModel()
                         {
+                            Id = e.Id,
                             Name = e.Name,
                             Code = e.Code,
                             Description = e.Description,
                             StartDate = e.StartDate,
                             EndDate = e.EndDate,
+                            Every_x_Days = e.Every_x_Days,
+                            FreeWeekends = e.FreeWeekends,
                             Instructor = e.Instructor,
                             Place = e.Place,
                             CourseForm = e.CourseForm,
@@ -94,6 +97,28 @@ namespace HarmonyWebApp.Concrete
             }
         }
 
+
+        public void DeleteUserFromAllActivities(string userId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userActivities = context.UsersWithActivities.Where(u => u.UserId == userId).ToList();
+
+              
+                foreach (var item in userActivities)
+                {
+                    var activity = Activities.Single(x => x.Id == item.ActivityId);
+                    activity.SeatsOccupied -= 1;
+                    SaveUpdatedActivity(activity);
+
+                    context.UsersWithActivities.Attach(item);
+                    context.UsersWithActivities.Remove(item);
+
+                }
+                context.SaveChanges();
+            }
+
+        }
 
         public Activity GetActivityById(int activityId)
         {

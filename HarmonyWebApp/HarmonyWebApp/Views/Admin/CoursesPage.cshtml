@@ -1,6 +1,7 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<HarmonyWebApp.Entities.Activity>
+@model IPagedList<HarmonyWebApp.Models.ActivityViewModel>
+
 
 @{
     ViewBag.Title = "Harmony - Administracja";
@@ -55,6 +56,8 @@
         {
             foreach (var item in Model)
             {
+
+
                 <tr>
                     <td>@item.Code</td>
                     <td>@Html.ActionLink(item.Name, "Edit", new {item.Id})</td>
@@ -68,8 +71,8 @@
                     <td>@item.CourseForm</td>
                     <td>@item.SeatsOccupied / @item.NumberOfSeats</td>
                     <td>@item.Ects</td>
-                    <td>@item.DepartmentId</td>
-                    <td>@item.FieldOfStudyId</td>
+                    <td>@item.DepartmentName</td>
+                    <td>@item.FieldOfStudyName</td>
 
                     <td>
                         @using (Html.BeginForm("Delete", "Admin"))
@@ -89,5 +92,5 @@
 </div>
 
 <div class="panel-footer">
-    @Html.ActionLink("Stwórz nowy kurs", "Create", null, new {@class = "btn btn-default"})
+    @Html.ActionLink("Stwórz nowy kurs", "Create", null, new {@class = "btn btn-info" })
 </div>

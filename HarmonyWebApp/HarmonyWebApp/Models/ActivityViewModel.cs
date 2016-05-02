@@ -4,6 +4,8 @@ namespace HarmonyWebApp.Models
 {
     public class ActivityViewModel
     {
+
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string Code { get; set; }
@@ -13,6 +15,10 @@ namespace HarmonyWebApp.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public int Every_x_Days { get; set; }
+    
+        public bool FreeWeekends { get; set; }
 
         public string Instructor { get; set; }
 

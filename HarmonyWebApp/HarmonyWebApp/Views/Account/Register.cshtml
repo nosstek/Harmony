@@ -16,7 +16,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Kierunek studiów</label>
         <div class="col-md-10">
-            @*@Html.DropDownListFor(m => m.FieldOfStudyId, ViewBag.FieldOfStudyData as IEnumerable<SelectListItem>)*@
+     
             @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursersList)
         </div>
     </div>

@@ -42,7 +42,7 @@ namespace HarmonyWebApp.Controllers
         public ActionResult ActivityJoin()
         {
 
-
+            
 
             var userId = User.Identity.GetUserId();
             int userFieldOfStudyId = _userRepository.ApplicationUsers.Single(u => u.Id == userId).FieldOfStudyId;

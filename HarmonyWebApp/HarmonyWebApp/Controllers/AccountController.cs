@@ -186,7 +186,7 @@ namespace HarmonyWebApp.Controllers
                              on e.DepartmentId equals d.Id
                          select new
                          {
-                             FieldOfStudyId = e.Id,
+                             FieldOfStudyId = e.Id,                       
                              InfoToDisplay = $"{d.DepartmentName}, Kierunek: {e.FieldOfStudyName}"
                          };
             model.CoursersList = new SelectList(fieldOfStudyList, "FieldOfStudyId", "InfoToDisplay");
@@ -216,7 +216,8 @@ namespace HarmonyWebApp.Controllers
                     City = model.City,
                     Student = true,
                     FullTimeStudies = model.FullTimeStudies,
-                    FieldOfStudyId = model.FieldOfStudyId
+                    FieldOfStudyId = model.FieldOfStudyId,
+               
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);

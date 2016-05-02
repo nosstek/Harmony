@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model IEnumerable<HarmonyWebApp.Models.ApplicationUser>
+@model IEnumerable<HarmonyWebApp.Models.UserInfoViewModel>
 
 @{
     ViewBag.Title = "Dane użytkowników";
@@ -8,6 +8,8 @@
 
 <h2>Dane użytkowników</h2>
 
+
+ 
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -19,20 +21,25 @@
             <th>Adres</th>
             <th>Kod pocztowy</th>
             <th>Miasto</th>
+            <th>Student</th>
             <th>Studia stacjonarne</th>
-            <th>Id kierunku</th>
+            <th>Wydział</th>
+            <th>Kierunek</th>
             <th>Akcje</th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr><td>@Html.ActionLink(item.FirstName, "EditUser", new { item.Id })  @Html.ActionLink(item.LastName, "EditUser", new { item.Id })</td>
+
+            <tr><td>@Html.ActionLink(item.FirstName +" "+item.LastName, "EditUser", new { item.Id })  </td>
             <td>@item.Address</td>
             <td>@item.PostalCode</td>
             <td>@item.City</td>
-            <td>@item.FullTimeStudies</td>
-            <td>@item.FieldOfStudyId</td>
-            <td> @Html.ActionLink("Zajęcia użytkownika", "EditUsersActivities", new { item.Id }, new { @class = "btn btn-default" }) </td> </tr>
+            <td>@(item.Student ? "TAK" : "NIE")</td>
+            <td>@(item.FullTimeStudies ? "TAK" : "NIE")</td>
+            <td>@item.DepartmentName</td>
+            <td>@item.FieldOfStudyName</td>
+            <td> @Html.ActionLink("Zajęcia użytkownika", "EditUsersActivities", new { item.Id }, new { @class = "btn btn-success" }) </td> </tr>
                
            
         }

@@ -13,6 +13,7 @@
 <div class="panel">
 <div class="panel-body">
     <h3>Edycja użytkownika: @Model.FirstName @Model.LastName</h3>
+    <h2>Uwaga - zmiana kierunku studiów spowoduje automatyczne wypisanie użytkownika z wszystkich kursów.</h2>
 </div>
 
 
@@ -23,11 +24,53 @@
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
 
-                <div class="form-group">
-                    <label>@property.PropertyName</label>
-                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                </div>
+                if (property.PropertyName == "FieldOfStudyId")
+                {
 
+                    <div class="form-group ">
+                        <label class="col-md-2 control-label">Kierunek studiów</label>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursesList, null, new { @class = "form-control" })
+                        </div>
+                        
+                    </div>
+                }
+                else
+                {
+
+                    if (property.PropertyName == "FullTimeStudies")
+                    {             
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Typ studiów</label>
+                            <div class="col-md-10">
+                                @Html.LabelFor(m => m.FullTimeStudies)
+                                @Html.CheckBoxFor(m => m.FullTimeStudies)                           
+                            </div>
+                        </div>
+                    }
+
+                    else if (property.PropertyName == "Student")
+                    {
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Rodzaj użytkownika</label>
+                            <div class="col-md-10">
+                                @Html.LabelFor(m => m.Student)
+                                @Html.CheckBoxFor(m => m.Student)
+                            </div>
+                        </div>
+                    }
+
+
+                    else if (property.PropertyName != "CoursesList" && property.PropertyName != "DepartmentId" && property.PropertyName != "Id")
+                    {
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@property.DisplayName</label>
+                        <div class="col-md-10">
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                        </div>
+                        </div>
+                     }
+                 }
             }
             
         </div>
