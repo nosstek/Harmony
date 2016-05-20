@@ -5,13 +5,28 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h3> Strona główna - panel administratora </h3>
-
-
-Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br />
-Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
-
-
-<div class="text-success">
-    <h4>Posiadasz uprawnienia administratora Harmony</h4>
+<div class="panel panel-success">
+<div class="panel-heading">
+    <h5 class="panel-title"><b><center>Strona główna - panel administratora</center></b></h5>
 </div>
+
+<div class="panel-group">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br />
+            Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
+
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="text-success">
+                <strong><h4><center>Posiadasz uprawnienia administratora Harmony</center></h4></strong>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

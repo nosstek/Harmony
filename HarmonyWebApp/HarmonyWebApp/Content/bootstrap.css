@@ -2090,7 +2090,7 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
-  color: #ffffff;
+  color: #000000;
   background-color: #428bca;
   border-color: #357ebd;
 }
@@ -2100,7 +2100,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
+  color: #000000;
   background-color: #3276b1;
   border-color: #285e8e;
 }
@@ -5461,7 +5461,7 @@ a.list-group-item:focus {
 }
 
 .panel-primary > .panel-heading {
-  color: #ffffff;
+  color: #000000;
   background-color: #428bca;
   border-color: #428bca;
 }

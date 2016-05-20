@@ -4,20 +4,31 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="panel">
-    <div class="panel-body">
+
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+
         @if (@Model.Name != null)
         {
-            <h3>Edycja @Model.Name</h3>
+            <text>
+                <h5 class="panel-title"><b><center>Edycja kursu: @Model.Name</center></b>
+            </text>
         }
         else
         {
-            <h3>Tworzenie nowego kursu</h3>
+            <text>
+                <h5 class="panel-title"><b><center>Stwórz nowy kurs</center></b>
+            </text>
         }
-    
-    </div>
+
+
+</div>
+
+
+
     @using (Html.BeginForm("Edit", "Admin"))
-    {
+            {
         <div class="panel-body">
             @Html.HiddenFor(m => m.Id)
             @foreach (var property in ViewData.ModelMetadata.Properties)
@@ -40,7 +51,7 @@
         </div>
 
         <div class="panel-footer">
-            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            <input type="submit" value="Zapisz" class="btn btn-success" />
             @Html.ActionLink("Anuluj i wróć do listy", "CoursesPage", null, new { @class = "btn btn-default" })
         </div>
 

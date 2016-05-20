@@ -5,11 +5,33 @@
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
-<h3>Twoje dane </h3>
-Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br/>
-Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
-Typ studiów: <strong>@(Model.FullTimeStudies ? "Dzienne" : "Zaoczne")</strong> <br/>
-<div class="text-success">
-    <h4>@Model.DepartmentName</h4>
-    <h4>Kierunek: @Model.FieldOfStudyName</h4>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h5 class="panel-title"><b><center>Twoje dane</center></b></h5>
+    </div>
+
+    <div class="panel-group">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br />
+                Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
+                Typ studiów: <strong>@(Model.FullTimeStudies ? "Dzienne" : "Zaoczne")</strong> <br />
+
+                <br />
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <h4>@Model.DepartmentName</h4>
+                <h4>Kierunek: @Model.FieldOfStudyName</h4>
+
+            </div>
+        </div>
+    </div>
 </div>
+

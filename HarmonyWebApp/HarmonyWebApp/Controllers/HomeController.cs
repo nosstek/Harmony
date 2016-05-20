@@ -5,10 +5,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using PagedList;
 using PagedList.Mvc;
+using System.Net.Mail;
 
 namespace HarmonyWebApp.Controllers
 {
@@ -20,7 +22,8 @@ namespace HarmonyWebApp.Controllers
         private readonly IFieldOfStudyRepository _fieldOfStudyRepository;
         private readonly IDepartmentRepository _departmentRepository;
 
-        public HomeController(IActivityRepository repository, IUserRepository userRepository, IFieldOfStudyRepository fieldOfStudyRepository, IDepartmentRepository departmentRepository)
+        public HomeController(IActivityRepository repository, IUserRepository userRepository,
+            IFieldOfStudyRepository fieldOfStudyRepository, IDepartmentRepository departmentRepository)
         {
             _repository = repository;
             _userRepository = userRepository;
@@ -42,20 +45,19 @@ namespace HarmonyWebApp.Controllers
         public ActionResult ActivityJoin()
         {
 
-            
 
             var userId = User.Identity.GetUserId();
             int userFieldOfStudyId = _userRepository.ApplicationUsers.Single(u => u.Id == userId).FieldOfStudyId;
-     
+
 
             var activityList =
-                _repository.Activities.Where( u => u.FieldOfStudyId == userFieldOfStudyId)
-                .ToList()
-                .Select(s => new
-                {
-                    ActivityId = s.Id,
-                    OtherInfo = $"{s.Code} - {s.Name} - ({s.SeatsOccupied}/{s.NumberOfSeats})"
-                });
+                _repository.Activities.Where(u => u.FieldOfStudyId == userFieldOfStudyId | u.FieldOfStudyId==47)
+                    .ToList()
+                    .Select(s => new
+                    {
+                        ActivityId = s.Id,
+                        OtherInfo = $"{s.Code} - {s.Name} - ({s.SeatsOccupied}/{s.NumberOfSeats})"
+                    });
 
             ViewBag.ActivityData = new SelectList(activityList, "ActivityId", "OtherInfo");
 
@@ -101,7 +103,7 @@ namespace HarmonyWebApp.Controllers
                             string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego wydziału");
                         return RedirectToAction("ActivityJoin", "Home");
                     }
-                    
+
                     activity.SeatsOccupied += 1;
                     _repository.SaveUpdatedActivity(activity);
                     _repository.SaveUserWithActivity(userId, activityId);
@@ -122,7 +124,101 @@ namespace HarmonyWebApp.Controllers
             }
         }
 
-        // POST: Zapisy na zajęcia - kod kursu
+
+        // POST: Zapisy na wszystkie zajęcia jednym kliknięciem
+        [HttpPost]
+        public ActionResult ActivityJoinAll() {
+
+       
+            var userId = User.Identity.GetUserId();
+            int userFieldOfStudyId = _userRepository.ApplicationUsers.Single(u => u.Id == userId).FieldOfStudyId;
+            string userEmail = _userRepository.ApplicationUsers.Single(u => u.Id == userId).Email;
+            var userInfo = _userRepository.GetUserInfo(userId);
+
+            var activityListAll =
+                _repository.Activities.Where(u => u.FieldOfStudyId == userFieldOfStudyId | u.FieldOfStudyId == 47)
+                    .ToList();
+
+             var activityList = activityListAll.GroupBy(x => new { x.Name, x.CourseForm }).Select(x => x.First()); // wybierze jedną grupę po nazwie ( nie zapisze 2 razy na ten sam kurs)
+             
+            
+       
+            foreach (var item in activityList)
+            {
+               
+
+                var checkExistingUserWithActivity =
+                    _repository.UsersWithActivities.Any(x => x.ActivityId == item.Id && x.UserId == userId);
+
+                if (checkExistingUserWithActivity == false)
+                {
+                    var activity = _repository.GetActivityById(item.Id);
+                    int maxSeats = activity.NumberOfSeats;
+                    int currentSeats = activity.SeatsOccupied;                
+                    var userDepartmentId = _fieldOfStudyRepository.GetDepartmentId(userInfo.FieldOfStudyId);
+
+                    if (currentSeats == maxSeats)
+                    {
+                        TempData["brak_ miejsc"] = string.Format("Brak miejsc w  grupie zajęciowej");                
+                        continue;   // Zapis do kolejnej 
+                    }
+
+                    else if ((activity.FieldOfStudyId != userInfo.FieldOfStudyId) && (activity.FieldOfStudyId != 47))
+                    {
+                        TempData["niepoprawny_kierunek"] =
+                            string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego kierunku");
+                        continue;
+                    }
+
+                    else if ((activity.DepartmentId != userDepartmentId) && (activity.DepartmentId != 16))
+                    {
+                        TempData["niepoprawny_wydzial"] =
+                            string.Format("Nie możesz się zapisać na kurs przeznaczony dla innego wydziału");                   
+                        continue;
+                    }
+
+                    activity.SeatsOccupied += 1;
+                    _repository.SaveUpdatedActivity(activity);
+                    _repository.SaveUserWithActivity(userId, item.Id);
+
+                    TempData["message"] = string.Format("Zapisano pomyślnie do wybranej grupy zajęciowej");
+                }
+              
+
+            }
+
+            //Code
+            MailMessage mail = new MailMessage();
+            mail.From = new System.Net.Mail.MailAddress("harmonya722@gmail.com");  // wszystkie podobne adresy są zajęte.. 
+            SmtpClient smtp = new SmtpClient();
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(mail.From.Address, "Pass321!");
+            smtp.Host = "smtp.gmail.com";
+
+            //recipient   
+            mail.To.Add(new MailAddress(userEmail));
+
+            mail.IsBodyHtml = true;
+            var uI = _userRepository.GetUserViewInfo(userId);
+
+            string message = "Witaj " + uI.FirstName + " " + uI.LastName + ", <br/><br/>" + "Zostałeś zapisany na wszystkie zajęcia dla kierunku " + uI.FieldOfStudyName + " na wydziale: " + uI.DepartmentName + " <br/> Z poważaniem, <br/> Administracja Harmony.";
+
+            mail.Subject = "Harmony - Potwierdzenie zapisów na zajęcia";
+            mail.Body = message;
+            smtp.Send(mail);
+
+            TempData["message"] = string.Format("Zapisano pomyślnie do wszystkich grup zajęciowych. Sprawdź skrzynkę pocztową.");
+
+            return RedirectToAction("ActivityJoin", "Home");
+
+        }
+
+
+
+    // POST: Zapisy na zajęcia - kod kursu
         [HttpPost]
         public ActionResult ActivityJoinByCode(string activityCode)
         {
@@ -202,6 +298,8 @@ namespace HarmonyWebApp.Controllers
 
             return View(result.ToList().ToPagedList(page ?? 1, 10));
         }
+
+
 
         // POST: Wypisanie użytkownika z kursu
         [HttpPost]

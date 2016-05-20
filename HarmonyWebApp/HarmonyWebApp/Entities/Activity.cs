@@ -30,7 +30,7 @@ namespace HarmonyWebApp.Entities
         public DateTime StartDate { get; set; }
 
         [Required]
-        [Display(Name = "Koniec zajęć")]
+        [Display(Name = "Zakończenie zajęć")]
         public DateTime EndDate { get; set; }
 
         [Required]
