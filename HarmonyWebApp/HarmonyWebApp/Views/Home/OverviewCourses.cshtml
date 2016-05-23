@@ -1,90 +1,45 @@
-﻿@using PagedList;
-@using PagedList.Mvc;
-@model IPagedList<HarmonyWebApp.Models.ActivityViewModel>
-
-
-@{
+﻿@{
     ViewBag.Title = "Harmony - Przeglądanie kursów";
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
+    AjaxOptions ajaxOpts = new AjaxOptions
+    {
+        UpdateTargetId = "Courses",
+        Url = Url.Action("CoursesList")
+    };
 }
-
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title"><b><center>Przeglądanie dostępnych kursów</center></b></h3>
+        <h3 class="panel-title">
+            <b>
+                <center>Przeglądanie dostępnych kursów</center>
+            </b>
+        </h3>
     </div>
 
-<div class="panel-group">
+    <div class="panel-group">
 
-    <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-            <p>
-                @using (Html.BeginForm("OverviewCourses", "Home", FormMethod.Get))
-                {
-                    <p>
-                        Szukaj za pomocą:
-                        @Html.RadioButton("searchBy", "Name", true) Nazwa
-                        @Html.RadioButton("searchBy", "Code") Kod grupy<br/>
-                        @Html.TextBox("searchString")
-                        <input type="submit" value="Szukaj"/>
-                    </p>
-                }
-            </p>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-
-            <table class="table table-striped table-condensed table-bordered">
-
-                <tr>
-                    <th style="min-width: 100px"><center>@Html.ActionLink("Kod grupy", "OverviewCourses", new { sort = ViewBag.SortByCode })</center></>
-                    <th style="min-width:100px"><center>@Html.ActionLink("Nazwa", "OverviewCourses", new { sort = ViewBag.SortByName })</center></th>
-                    <th style="min-width:150px"><center>@Html.ActionLink("Opis", "OverviewCourses", new { sort = ViewBag.SortByDescription })</center></th>
-                    <th><center>@Html.ActionLink("Rozpoczęcie", "OverviewCourses", new { sort = ViewBag.SortByStart })</center></th>
-                    <th><center>@Html.ActionLink("Zakończenie", "OverviewCourses", new { sort = ViewBag.SortByEnd })</center></th>
-                    <th style="min-width:100px"><center>@Html.ActionLink("Prowadzący", "OverviewCourses")</center></th>
-                    <th style="min-width:100px"><center>@Html.ActionLink("Miejsce", "OverviewCourses")</center></th>
-                    <th style="min-width:20px"><center>@Html.ActionLink("Forma", "OverviewCourses")</center></th>
-                    <th><center>@Html.ActionLink("Ilość miejsc", "OverviewCourses")</center></th>
-                    <th><center>@Html.ActionLink("Ects", "OverviewCourses")</center></th>
-                    <th style="min-width:100px"><center>@Html.ActionLink("Kierunek", "OverviewCourses")</center></th>
-                    <th style="min-width:100px"><center>@Html.ActionLink("Wydział", "OverviewCourses")</center></th>
-                </tr>
-
-                @if (Model.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="5"> Brak zajęć o podanym kryterium </td>
-                    </tr>
-                }
-                else
-                {
-                    foreach (var item in Model)
+                <p>
+                    @using (Ajax.BeginForm(ajaxOpts))
                     {
-                        <tr>
-                            <td><center>@item.Code</center></td>
-                            <td><center>@item.Name</center></td>
-                            <td><center>@item.Description</center></td>
-                            <td><center>@item.StartDate</center></td>
-                            <td><center>@item.EndDate</center></td>
-                            <td><center>@item.Instructor</center></td>
-                            <td><center>@item.Place</center></td>
-                            <td><center>@item.CourseForm</center></td>
-                            <td><center>@item.SeatsOccupied / @item.NumberOfSeats</center></td>
-                            <td><center>@item.Ects</center></td>
-                            <td><center>@item.FieldOfStudyName</center></td>
-                            <td><center>@item.DepartmentName</center></td>
-                        </tr>
+                        <p>
+                            Szukaj za pomocą:
+                            @Html.RadioButton("searchBy", "Name", true) Nazwa
+                            @Html.RadioButton("searchBy", "Code") Kod grupy<br/>
+                            @Html.TextBox("searchString")
+                            <input type="submit" value="Szukaj"/>
+                        </p>
                     }
-                }
-
-            </table>
-
+                </p>
+            </div>
         </div>
+
+        <div class="panel panel-default" id="Courses">
+            @Html.Action("CoursesList")
+        </div>
+
     </div>
 </div>
-    </div>
-        @Html.PagedListPager(Model, page => Url.Action("OverviewCourses", new { page, searchBy = Request.QueryString["searchBy"], searchString = Request.QueryString["searchString"] }),
-new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

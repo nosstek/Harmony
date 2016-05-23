@@ -81,7 +81,12 @@ namespace HarmonyWebApp.Controllers
         }
 
         // GET: Strona z listą kursów
-        public ActionResult CoursesPage(int? page, string searchString, string searchBy)
+        public ActionResult CoursesPage()
+        {
+            return View();
+        }
+
+        public ActionResult CoursesList(int? page, string searchString, string searchBy)
         {
             //var result = _repository.Activities;
             var result = _repository.ActivitiesViewInfo;
@@ -90,18 +95,18 @@ namespace HarmonyWebApp.Controllers
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    result = result.Where(s => s.Code == searchString);
+                    result = result.Where(s => s.Code.Contains(searchString));
                 }
             }
             else
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    result = result.Where(s => s.Name.StartsWith(searchString));
+                    result = result.Where(s => s.Name.Contains(searchString));
                 }
             }
 
-            return View(result.ToList().ToPagedList(page ?? 1, 10));
+            return PartialView(result.ToList().ToPagedList(page ?? 1, 10));
         }
 
 

@@ -217,7 +217,6 @@ namespace HarmonyWebApp.Controllers
         }
 
 
-
     // POST: Zapisy na zajęcia - kod kursu
         [HttpPost]
         public ActionResult ActivityJoinByCode(string activityCode)
@@ -323,25 +322,30 @@ namespace HarmonyWebApp.Controllers
         }
 
         // GET: Przeglądanie kursów
-        public ActionResult OverviewCourses(string searchString, string searchBy, string sort, int? page)
+        public ActionResult OverviewCourses()
         {
-            var movies = _repository.ActivitiesViewInfo;
+            return View();
+        }
+
+        public ActionResult CoursesList(string searchString, string searchBy, string sort, int? page)
+        {
+            var activities = _repository.ActivitiesViewInfo;
 
             if (searchBy == "Code")
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    movies = movies.Where(s => s.Code == searchString);
+                    activities = activities.Where(s => s.Code.Contains(searchString));
                 }
             }
             else
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    movies = movies.Where(s => s.Name.StartsWith(searchString));
+                    activities = activities.Where(s => s.Name.Contains(searchString));
                 }
-            }        
-         
+            }
+
             // Sortowanie
             ViewBag.SortByCode = sort == "CodeDesc" ? "CodeAsc" : "CodeDesc";
             ViewBag.SortByName = sort == "NameDesc" ? "NameAsc" : "NameDesc";
@@ -352,39 +356,40 @@ namespace HarmonyWebApp.Controllers
             switch (sort)
             {
                 case "CodeDesc":
-                    movies = movies.OrderByDescending(x => x.Code);
+                    activities = activities.OrderByDescending(x => x.Code);
                     break;
                 case "CodeAsc":
-                    movies = movies.OrderBy(x => x.Code);
+                    activities = activities.OrderBy(x => x.Code);
                     break;
                 case "NameDesc":
-                    movies = movies.OrderByDescending(x => x.Name);
+                    activities = activities.OrderByDescending(x => x.Name);
                     break;
                 case "NameAsc":
-                    movies = movies.OrderBy(x => x.Name);
+                    activities = activities.OrderBy(x => x.Name);
                     break;
                 case "DescriptionDesc":
-                    movies = movies.OrderByDescending(x => x.Description);
+                    activities = activities.OrderByDescending(x => x.Description);
                     break;
                 case "DescriptionAsc":
-                    movies = movies.OrderBy(x => x.Description);
+                    activities = activities.OrderBy(x => x.Description);
                     break;
                 case "StartDesc":
-                    movies = movies.OrderByDescending(x => x.StartDate);
+                    activities = activities.OrderByDescending(x => x.StartDate);
                     break;
                 case "StartAsc":
-                    movies = movies.OrderBy(x => x.StartDate);
+                    activities = activities.OrderBy(x => x.StartDate);
                     break;
                 case "EndDesc":
-                    movies = movies.OrderByDescending(x => x.EndDate);
+                    activities = activities.OrderByDescending(x => x.EndDate);
                     break;
                 case "EndAsc":
-                    movies = movies.OrderBy(x => x.EndDate);
+                    activities = activities.OrderBy(x => x.EndDate);
                     break;
             }
 
-            return View(movies.ToList().ToPagedList(page ?? 1, 10));
+            return PartialView(activities.ToList().ToPagedList(page ?? 1, 10));
         }
+
     }
 }
 
