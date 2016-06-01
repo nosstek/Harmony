@@ -16,9 +16,9 @@
         <div class="panel panel-default">
             <div class="panel-body">
 
-                Imię i nazwisko: <strong>@Model.FirstName @Model.LastName</strong> <br />
-                Adres: <strong>@Model.Address, @Model.PostalCode @Model.City</strong> <br />
-                Typ studiów: <strong>@(Model.FullTimeStudies ? "Dzienne" : "Zaoczne")</strong> <br />
+                Imię i nazwisko: <strong> @Model.FirstName @Model.LastName</strong> <br />
+                Adres: <strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @Model.Address, @Model.PostalCode @Model.City  </strong> <br />
+                Typ studiów:<strong>&nbsp&nbsp&nbsp @(Model.FullTimeStudies ? "Dzienne" : "Zaoczne")</strong> <br />
 
                 <br />
 
@@ -27,11 +27,24 @@
         <div class="panel panel-default">
             <div class="panel-body">
 
-                <h4>@Model.DepartmentName</h4>
-                <h4>Kierunek: @Model.FieldOfStudyName</h4>
+                <strong>                
+                    Kierunek: @Model.FieldOfStudyName </br>
+                    @Model.DepartmentName
+                </strong>
 
+
+
+</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @if(@Model.ImageBytes != null ){
+                <img id="zdjecie" src="data:image/jpg;base64, @Convert.ToBase64String(@Model.ImageBytes)"/>
+                }
             </div>
         </div>
+
+
     </div>
-</div>
+        </div>
 

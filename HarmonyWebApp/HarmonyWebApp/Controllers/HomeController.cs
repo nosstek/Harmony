@@ -4,6 +4,7 @@ using HarmonyWebApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -11,6 +12,8 @@ using Microsoft.Ajax.Utilities;
 using PagedList;
 using PagedList.Mvc;
 using System.Net.Mail;
+using System.Web;
+
 
 namespace HarmonyWebApp.Controllers
 {
@@ -127,7 +130,7 @@ namespace HarmonyWebApp.Controllers
 
         // POST: Zapisy na wszystkie zajęcia jednym kliknięciem
         [HttpPost]
-        public ActionResult ActivityJoinAll() {
+        public ActionResult ActivityJoinAll(int mode) {
 
        
             var userId = User.Identity.GetUserId();
@@ -139,10 +142,21 @@ namespace HarmonyWebApp.Controllers
                 _repository.Activities.Where(u => u.FieldOfStudyId == userFieldOfStudyId | u.FieldOfStudyId == 47)
                     .ToList();
 
-             var activityList = activityListAll.GroupBy(x => new { x.Name, x.CourseForm }).Select(x => x.First()); // wybierze jedną grupę po nazwie ( nie zapisze 2 razy na ten sam kurs)
-             
-            
+
+            var activityList =
+                activityListAll.OrderBy(x => x.StartDate.Hour)
+                    .GroupBy(x => new {x.Name, x.CourseForm})
+                    .Select(x => x.First());
+
+            if (mode == 2)
+            {
+                activityList = activityListAll.OrderBy(x => x.StartDate)
+                    .GroupBy(x => new { x.Name, x.CourseForm })
+                    .Select(x => x.Last());
+            }
+
        
+
             foreach (var item in activityList)
             {
                
@@ -389,6 +403,70 @@ namespace HarmonyWebApp.Controllers
 
             return PartialView(activities.ToList().ToPagedList(page ?? 1, 10));
         }
+
+
+        [HttpGet]
+        public ActionResult PictureUpload()
+        {
+            return View("PictureUploadView");
+        }
+
+
+
+        [HttpPost]
+        public ActionResult PictureUpload(IdentityViewModel model)
+        {
+
+
+            var userId = User.Identity.GetUserId();
+            model=_userRepository.GetIdentityViewModel(userId);
+
+            HttpPostedFileBase file;
+            if (Request.Files.Count > 0)
+            {
+                file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0 && ModelState.IsValid)
+                {
+                    using (Stream stream = file.InputStream)
+                    {
+                        MemoryStream memoryStream = stream as MemoryStream;
+                        if (memoryStream == null)
+                        {
+                            memoryStream = new MemoryStream();
+                            stream.CopyTo(memoryStream);
+                        }
+
+                        model.ImageBytes = memoryStream.ToArray();
+                        memoryStream.Dispose();
+                    }
+
+
+                    _userRepository.SaveUserData(model);
+                        
+                  
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Files", "Files Are empty");
+                return View("PictureUploadView", model);
+            }
+
+            return View("PictureUploadView");
+        }
+
+
+        public ActionResult PicView()
+        {
+            var userId = User.Identity.GetUserId();
+            var userInfo = _userRepository.GetUserViewInfo(userId);
+
+            return View(userInfo);
+
+        }
+
+
 
     }
 }

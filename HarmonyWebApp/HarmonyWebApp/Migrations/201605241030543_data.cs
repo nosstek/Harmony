@@ -3,16 +3,16 @@ namespace HarmonyWebApp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ChangedUserTable : DbMigration
+    public partial class data : DbMigration
     {
         public override void Up()
         {
-            DropColumn("dbo.AspNetUsers", "FieldOfStudyId");
+            AddColumn("dbo.AspNetUsers", "ImageBytes", c => c.Binary());
         }
         
         public override void Down()
         {
-            AddColumn("dbo.AspNetUsers", "FieldOfStudyId", c => c.Int(nullable: false));
+            DropColumn("dbo.AspNetUsers", "ImageBytes");
         }
     }
 }

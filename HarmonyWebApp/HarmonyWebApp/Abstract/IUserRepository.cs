@@ -9,6 +9,8 @@ namespace HarmonyWebApp.Abstract
         ApplicationUser GetUserInfo(string userId);
         UserInfoViewModel GetUserViewInfo(string userId);
 
+        IdentityViewModel GetIdentityViewModel(string userId);
+
         IEnumerable<UserInfoViewModel> UsersInfoViewModels();
         IEnumerable<IdentityViewModel> IdentitiesViewInfo { get; }
         IEnumerable<ApplicationUser>  ApplicationUsers { get; }

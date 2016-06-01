@@ -25,5 +25,7 @@ namespace HarmonyWebApp.Models
         public string DepartmentName { get; set; }
 
         public string FieldOfStudyName { get; set; }
+
+        public byte[] ImageBytes { get; set; }
     }
 }

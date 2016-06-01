@@ -7,13 +7,13 @@ namespace HarmonyWebApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChangedUserTable : IMigrationMetadata
+    public sealed partial class data : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedUserTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(data));
         
         string IMigrationMetadata.Id
         {
-            get { return "201604231453136_ChangedUserTable"; }
+            get { return "201605241030543_data"; }
         }
         
         string IMigrationMetadata.Source

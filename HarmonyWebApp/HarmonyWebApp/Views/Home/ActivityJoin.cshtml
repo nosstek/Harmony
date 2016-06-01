@@ -38,19 +38,48 @@
 
             </div>
         </div>
+
         <div class="panel panel-default">
             <div class="panel-body">
 
-                @using (Html.BeginForm("ActivityJoinAll", "Home"))
+                @using (Html.BeginForm("ActivityJoinAll", "Home", new {mode = 1}))
                 {
-                    <input type="submit" value="Zapisz na wszystkie" class="btn btn-success"/>
+                    <input type="submit" value="Zapisz na wszystkie zajęcia - rano" class="btn btn-success"/>
                 }
-                <p><span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkowniak na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.</p>
+                <p><span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkowniak na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.
+                </p>
 
             </div>
         </div>
+
+
+
+
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                @using (Html.BeginForm("ActivityJoinAll", "Home", new {mode = 2}))
+                {
+                    <input type="submit" value="Zapisz na wszystkie zajęcia - wieczór" class="btn btn-success"/>
+                }
+                <p>
+                    <span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkowniak na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.
+                </p>
+
+            </div>
+        </div>
+
     </div>
 </div>
+
+
+
+
+
+
+
+
 
 
 

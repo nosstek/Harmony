@@ -22,6 +22,8 @@ namespace HarmonyWebApp.Models
         public bool FullTimeStudies { get; set; }
         public int FieldOfStudyId { get; set; }
 
+        public byte[] ImageBytes { get; set; }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using HarmonyWebApp.Abstract;
 using HarmonyWebApp.Models;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace HarmonyWebApp.Concrete
                         FullTimeStudies = e.FullTimeStudies,
                         DepartmentName = d.DepartmentName,
                         FieldOfStudyName = f.FieldOfStudyName,
+                        ImageBytes = e.ImageBytes,
                         
                     };
                 return userInfo.SingleOrDefault();
@@ -74,6 +76,30 @@ namespace HarmonyWebApp.Concrete
             }
         }
 
+
+        public IdentityViewModel GetIdentityViewModel(string userId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var identityInfo = from e in context.Users.Where(x => x.Id == userId).ToList()
+
+                                   select new IdentityViewModel()
+                                   {
+                                       Id = e.Id,
+                                       FirstName = e.FirstName,
+                                       LastName = e.LastName,
+                                       Address = e.Address,
+                                       PostalCode = e.PostalCode,
+                                       City = e.City,
+                                       Student = e.Student,
+                                       FullTimeStudies = e.FullTimeStudies,
+                                       FieldOfStudyId = e.FieldOfStudyId,
+                                       ImageBytes = e.ImageBytes
+                                    };
+                return identityInfo.SingleOrDefault();
+            }
+
+        }
 
 
 
@@ -138,7 +164,7 @@ namespace HarmonyWebApp.Concrete
                     dbEntry.City = identityViewModel.City;
                     dbEntry.FullTimeStudies = identityViewModel.FullTimeStudies;
                     dbEntry.FieldOfStudyId = identityViewModel.FieldOfStudyId;
-                    
+                    dbEntry.ImageBytes = identityViewModel.ImageBytes;
                 }
 
                 context.SaveChanges();

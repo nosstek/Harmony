@@ -218,21 +218,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Migrations\201604051258479_init.cs" />
-    <Compile Include="Migrations\201604051258479_init.Designer.cs">
-      <DependentUpon>201604051258479_init.cs</DependentUpon>
+    <Compile Include="Migrations\201605241030543_data.cs" />
+    <Compile Include="Migrations\201605241030543_data.Designer.cs">
+      <DependentUpon>201605241030543_data.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201604220822407_ChangedTableStructure.cs" />
-    <Compile Include="Migrations\201604220822407_ChangedTableStructure.Designer.cs">
-      <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604231453136_ChangedUserTable.cs" />
-    <Compile Include="Migrations\201604231453136_ChangedUserTable.Designer.cs">
-      <DependentUpon>201604231453136_ChangedUserTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604232028222_ChangedTablesStructure_v2.cs" />
-    <Compile Include="Migrations\201604232028222_ChangedTablesStructure_v2.Designer.cs">
-      <DependentUpon>201604232028222_ChangedTablesStructure_v2.cs</DependentUpon>
+    <Compile Include="Migrations\201605281121002_name.cs" />
+    <Compile Include="Migrations\201605281121002_name.Designer.cs">
+      <DependentUpon>201605281121002_name.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -333,6 +325,8 @@
     <Content Include="Views\Admin\EditUser.cshtml" />
     <None Include="Views\Admin\CoursesList.cshtml" />
     <None Include="Views\Home\CoursesList.cshtml" />
+    <Content Include="Views\Home\PictureUploadView.cshtml" />
+    <Content Include="Views\Home\PicView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -345,17 +339,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604051258479_init.resx">
-      <DependentUpon>201604051258479_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605241030543_data.resx">
+      <DependentUpon>201605241030543_data.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604220822407_ChangedTableStructure.resx">
-      <DependentUpon>201604220822407_ChangedTableStructure.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604231453136_ChangedUserTable.resx">
-      <DependentUpon>201604231453136_ChangedUserTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604232028222_ChangedTablesStructure_v2.resx">
-      <DependentUpon>201604232028222_ChangedTablesStructure_v2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605281121002_name.resx">
+      <DependentUpon>201605281121002_name.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

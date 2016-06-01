@@ -1,0 +1,9 @@
+﻿@model HarmonyWebApp.Models.UserInfoViewModel
+
+@{
+    ViewBag.Title = "PicView";
+}
+
+
+
+<img id="zdjecie" src="data:image/jpg;base64, @Convert.ToBase64String(@Model.ImageBytes)" />
