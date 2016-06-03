@@ -1,0 +1,157 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,900,700&subset=latin,latin-ext);
+
+html,
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+header{
+/*
+    background-image: url('../img/bg.jpg');
+    background-repeat: no-repeat;
+    background-size:conver;
+    background-position:center center;
+*/
+/*    height: 100vh;*/
+    width: 100vw;
+}
+
+/*nav*/
+
+#panel-top{
+    background-color: #0e1a35;
+    border-radius: 0px;
+    height: 80px;
+    position: relative;
+}
+
+#panel-top img{
+    width: 40px;
+    height: 40px;
+    margin-top: 17px;
+}
+
+#panel-top li{
+    display: inline;
+    color: #fff;
+    list-style: none;
+    padding: 0 25px 0 25px;
+}
+
+#panel-top li a{
+    color: #fff;
+    opacity: 1;
+  -webkit-transition: all 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition:         all 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#panel-top li a:hover{
+    text-decoration: none;
+    opacity: 0.7;
+
+}
+
+#panel-top ul{
+    margin-top: 28px;
+    position: absolute;
+    z-index: 9999999999999;
+    right: 0;
+}
+
+#panel-body{
+    background-color: #fff;
+    min-height: 300px;
+}
+
+h1{
+    font-weight: 300;
+    color: #8492af;
+}
+
+h1 span{
+    color: #5384ff;
+}
+
+#panel-top h2{
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 5vw;
+    font-weight: 700;
+    text-transform: lowercase;
+}
+
+/*
+#nav{
+    height: 1500px;
+    width: 300px;
+    background-color: #0e1a35;
+    float: left;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 15px;
+    
+}
+img.img-responsive{
+    padding: 10px 0 0 10px;
+    height: auto;
+    width: auto;
+}
+
+#panel-logo img{
+    width: 50px;
+    height: 50px;
+    position: relative;
+    left: 2%;
+    bottom: 2%;
+    
+
+}
+#panel-logo h2{
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 5vw;
+    font-weight: 700;
+    text-transform: lowercase; 
+}
+#panel-home h4{
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 4vw;
+    font-weight: 700;
+}
+*/
+
+/*
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    background-color: #0e1a35;
+}
+
+#nav li a {
+    display: block;
+    color: #ffffff;
+    padding: 8px 0 8px 16px;
+    height: 80px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+
+#nav li a:hover {
+    background-color:#5384ff;
+    opacity: 0.5;
+    color: white;
+}
+
+
+#nav li #home a{
+    background-image: url(img/home_icon.jpg);
+    width: 100px;
+}*/

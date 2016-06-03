@@ -3,94 +3,51 @@
     ViewBag.Title = "Harmony - Rejestracja";
 }
 
-<h2>@ViewBag.Title</h2>
+<h1 class="text-center">Aby korzystać z serwisu <span>zarejestruj się.</span></h1>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Utwórz nowe konto</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
 
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Kierunek studiów</label>
-        <div class="col-md-10">
-     
-            @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursersList)
-        </div>
-    </div>
+    <h4><b>Wybierz kierunek studiów</b></h4>
+    @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursersList)
+    <br/><br/>
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Typ studiów</label>
-        <div class="col-md-10">
-            @Html.LabelFor(m => m.FullTimeStudies)
-            @Html.CheckBoxFor(m => m.FullTimeStudies)
-            @Html.LabelFor(m => m.PartTimeStudies)
-            @Html.CheckBoxFor(m => m.PartTimeStudies)
+    <h4><b>Wybierz typ studiów</b></h4>
+    <label class="custom-label">@Html.CheckBoxFor(m => m.FullTimeStudies)Stacjonarne</label>
 
-        </div>
-    </div>
+    <label class="custom-label">@Html.CheckBoxFor(m => m.PartTimeStudies)Niestacjonarne</label>
+    <br /><br />
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Imię</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "Imię" })
+    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Nazwisko</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Nazwisko" })
+    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Adres</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.Address, new { @placeholder = "Adres" })
+    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Kod pocztowy</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.PostalCode, new { @placeholder = "Kod pocztowy" })
+    @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Miejscowość</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.City, new { @placeholder = "Miejscowość" })
+    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="col-md-2 control-label">Email</label>
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Hasło</label>
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-md-2 control-label">Potwierdź hasło</label>
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
-        </div>
-    </div>
+    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Utwórz" />
-        </div>
-    </div>
+    @Html.PasswordFor(m => m.Password, new { @placeholder = "Hasło" })
+    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Potwierdź hasło" })
+    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+
+    <br/><br/>
+    <input type="submit" class="btn btn-default" value="Zarejestruj" />
+    
 }
 
 @section Scripts {

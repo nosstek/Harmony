@@ -111,6 +111,7 @@ namespace HarmonyWebApp.Models
         [Display(Name = "Hasło")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Potwierdź hasło")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Podane hasła nie pasują do siebie.")]

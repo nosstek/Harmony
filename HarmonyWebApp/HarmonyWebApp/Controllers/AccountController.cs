@@ -156,7 +156,7 @@ namespace HarmonyWebApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var fieldOfStudyList = from e in _fieldOfStudyRepository.FieldsOfStudy.ToList()
+            var fieldOfStudyList = from e in _fieldOfStudyRepository.FieldsOfStudy.Where( x => x.FieldOfStudyName != "Wszystkie kierunki").ToList()
                          join d in _departmentRepository.Departments.ToList()
                              on e.DepartmentId equals d.Id
                          select new
