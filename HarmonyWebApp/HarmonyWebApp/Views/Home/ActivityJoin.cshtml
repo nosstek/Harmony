@@ -3,90 +3,47 @@
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
+<div class="col-md-12 white-bg text-content">
+    <h1>Zapisy</h1>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h5 class="panel-title"><b><center>Zapisy na zajęcia</center></b></h5>
-    </div>
-
-    <div class="panel-group">
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-
-                @using (Html.BeginForm("ActivityJoin", "Home"))
-                {
-                    @Html.DropDownList("ActivityData", "Wybierz kurs z listy")
-                    <input type="submit" value="Zapisz się"/>
-                }
-
-                <br/>
-
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-
-
-                @using (Html.BeginForm("ActivityJoinByCode", "Home"))
-                {
-                    <p>
-                        Kod kursu: @Html.TextBox("ActivityCode")
-                        <input type="submit" value="Zapisz się"/>
-                    </p>
-                }
-
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-
-                @using (Html.BeginForm("ActivityJoinAll", "Home", new {mode = 1}))
-                {
-                    <input type="submit" value="Zapisz na wszystkie zajęcia - rano" class="btn btn-success"/>
-                }
-                <p><span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkowniak na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.
-                </p>
-
-            </div>
-        </div>
-
-
-
-
-
-        <div class="panel panel-default">
-            <div class="panel-body">
-
-                @using (Html.BeginForm("ActivityJoinAll", "Home", new {mode = 2}))
-                {
-                    <input type="submit" value="Zapisz na wszystkie zajęcia - wieczór" class="btn btn-success"/>
-                }
-                <p>
-                    <span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkowniak na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.
-                </p>
-
-            </div>
-        </div>
+    <div class="col-md-4">
+        <p>Zapisy na zajęcia</p>
+        @using (Html.BeginForm("ActivityJoin", "Home"))
+        {
+            @Html.DropDownList("ActivityData", "Wybierz kurs z listy")
+            <input type="submit" value="Zapisz się" class="panel-button"/>
+        }
 
     </div>
+
+    <div class="col-md-4">
+        <p>Kod kursu</p>
+        @using (Html.BeginForm("ActivityJoinByCode", "Home"))
+        {
+            <p>
+                @Html.TextBox("ActivityCode", null, new {@class = "input-custom"})
+                <input type="submit" value="Zapisz się" class="panel-button"/>
+            </p>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <p>Zapisy automatyczne na wszystkie zajęcia</p>
+        @using (Html.BeginForm("ActivityJoinAll", "Home", new { mode = 1 }))
+        {
+            <input type="submit" value="Rano" class="panel-button small-margin" />
+        }
+
+        @using (Html.BeginForm("ActivityJoinAll", "Home", new { mode = 2 }))
+        {
+            <input type="submit" value="Wieczorem" class="panel-button"  />
+        }
+
+        <br/>
+        <p>
+            <span class="glyphicon glyphicon-info-sign"></span> Wybranie tej opcji zapisuje użytkownika na wszystkie grupy zajęciowe w ramach kierunku oraz ogólnouczelniane.
+        </p>
+
+    </div>
+
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

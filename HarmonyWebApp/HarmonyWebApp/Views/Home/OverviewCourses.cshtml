@@ -8,38 +8,36 @@
     };
 }
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            <b>
-                <center>Przeglądanie dostępnych kursów</center>
-            </b>
-        </h3>
-    </div>
+<div class="col-md-12 white-bg text-content">
 
-    <div class="panel-group">
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+    @using (Ajax.BeginForm(ajaxOpts))
+    {
+        <h1>Szukaj za pomocą</h1>
 
-                <p>
-                    @using (Ajax.BeginForm(ajaxOpts))
-                    {
-                        <p>
-                            Szukaj za pomocą:
-                            @Html.RadioButton("searchBy", "Name", true) Nazwa
-                            @Html.RadioButton("searchBy", "Code") Kod grupy<br/>
-                            @Html.TextBox("searchString")
-                            <input type="submit" value="Szukaj"/>
-                        </p>
-                    }
-                </p>
-            </div>
+        <div class="col-md-12">
+            <label class="custom-label yolo">
+                @Html.RadioButton("searchBy", "Name", true)Nazwa
+            </label>
+
+            <label class="custom-label yolo">
+                @Html.RadioButton("searchBy", "Code")Kod grupy
+            </label>
         </div>
 
-        <div class="panel panel-default" id="Courses">
-            @Html.Action("CoursesList")
+        <div class="col-md-12" style="margin-bottom: 50px;">
+            <br>
+                @Html.TextBox("searchString", null, new { @class = "input-custom" })
+                <input type="submit" class="panel-button" value="Szukaj" />
         </div>
+    }
 
+    <div id="Courses">
+        @Html.Action("CoursesList")
     </div>
+
+
+
+
+
 </div>

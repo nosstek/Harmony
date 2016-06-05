@@ -1,24 +1,65 @@
-﻿function htmlbodyHeightUpdate() {
-    var height3 = $(window).height()
-    var height1 = $('.nav').height() + 50
-    height2 = $('.main').height()
-    if (height2 > height3) {
-        $('html').height(Math.max(height1, height3, height2) + 10);
-        $('body').height(Math.max(height1, height3, height2) + 10);
-    }
-    else {
-        $('html').height(Math.max(height1, height3, height2));
-        $('body').height(Math.max(height1, height3, height2));
+﻿$(document).ready(function () {
+    $('#btn-menu').on('click', function () {
+        $('.content').toggleClass('isOpen');
+    });
+
+    $('#settings-menu').on('click', function () {
+        $('#settings-submenu').toggleClass('isActive');
+    });
+
+    $('#courses').on('click', function () {
+        $('#courses-list').toggleClass('isActive');
+    });
+
+});
+
+
+/*
+Reference: http://jsfiddle.net/BB3JK/47/
+*/
+
+$('select').each(function () {
+    var $this = $(this), numberOfOptions = $(this).children('option').length;
+
+    $this.addClass('select-hidden');
+    $this.wrap('<div class="select"></div>');
+    $this.after('<div class="select-styled"></div>');
+
+    var $styledSelect = $this.next('div.select-styled');
+    $styledSelect.text($this.children('option').eq(0).text());
+
+    var $list = $('<ul />', {
+        'class': 'select-options'
+    }).insertAfter($styledSelect);
+
+    for (var i = 0; i < numberOfOptions; i++) {
+        $('<li />', {
+            text: $this.children('option').eq(i).text(),
+            rel: $this.children('option').eq(i).val()
+        }).appendTo($list);
     }
 
-}
-$(document).ready(function () {
-    htmlbodyHeightUpdate()
-    $(window).resize(function () {
-        htmlbodyHeightUpdate()
+    var $listItems = $list.children('li');
+
+    $styledSelect.click(function (e) {
+        e.stopPropagation();
+        $('div.select-styled.active').each(function () {
+            $(this).removeClass('active').next('ul.select-options').hide();
+        });
+        $(this).toggleClass('active').next('ul.select-options').toggle();
     });
-    $(window).scroll(function () {
-        height2 = $('.main').height()
-        htmlbodyHeightUpdate()
+
+    $listItems.click(function (e) {
+        e.stopPropagation();
+        $styledSelect.text($(this).text()).removeClass('active');
+        $this.val($(this).attr('rel'));
+        $list.hide();
+        //console.log($this.val());
     });
+
+    $(document).click(function () {
+        $styledSelect.removeClass('active');
+        $list.hide();
+    });
+
 });

@@ -240,16 +240,25 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bombelki.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bubbles.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\home.css" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\user_photo.jpg" />
     <Content Include="Content\login.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\SideBar.css" />
+    <Content Include="Content\sidebar.css" />
+    <Content Include="Content\sidebar_home2.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\tables_style.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -271,10 +280,18 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\Harmony-Application - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Harmony-Application - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Harmony-Application - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Harmony-Application - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-2.2.3.min.map" />

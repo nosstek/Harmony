@@ -8,60 +8,57 @@
     Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
 }
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h5 class="panel-title"><b><center>Lista zajęć, na które jesteś zapisany</center></b></h5>
-    </div>
+<div class="col-md-12 white-bg text-content">
 
-    <div class="panel-group">
+    <h1>Twoje kursy:</h1>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th scope="col">Kod grupy</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Opis</th>
+            <th scope="col">Rozpoczęcie</th>
+            <th scope="col">Zakończenie</th>
+            <th scope="col">Prowadzący</th>
+            <th scope="col">Miejsce</th>
+            <th scope="col">Forma</th>
+            <th scope="col">Ilość miejsc</th>
+            <th scope="col">ECTS</th>
+            <th scope="col">Akcja</th>
+        </tr>
+        </thead>
 
-                <table class="table table-striped table-condensed table-bordered">
-
-                    <tr>
-                        <th><center>Kod grupy</center></th>
-                        <th><center>Nazwa</center></th>
-                        <th><center>Opis</center></th>
-                        <th><center>Rozpoczęcie</center></th>
-                        <th><center>Zakończenie</center></th>
-                        <th><center>Prowadzący</center></th>
-                        <th><center>Miejsce</center></th>
-                        <th><center>Forma</center></th>
-                        <th><center>Ilość miejsc</center></th>
-                        <th><center>Ects</center></th>
-                        <th><center>Akcje</center></th>
-                    </tr>
-
-
-                    @foreach (var item in Model)
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="row" data-label="Kod grupy">@item.Code</td>
+                <td data-label="Nazwa">@item.Name</td>
+                <td data-label="Opis">@item.Description</td>
+                <td data-label="Rozpoczęcie">@item.StartDate</td>
+                <td data-label="Zakończenie">@item.EndDate</td>
+                <td data-label="Prowadzący">@item.Instructor</td>
+                <td data-label="Miejsce">@item.Place</td>
+                <td data-label="Forma">@item.CourseForm</td>
+                <td data-label="Ilość miejsc">@item.SeatsOccupied / @item.NumberOfSeats</td>
+                <td data-label="ECTS">@item.Ects</td>
+                <td data-label="Akcja">
+                    @using (Html.BeginForm("UnsubscribeCourse", "Home"))
                     {
-                        <tr>
-                            <td style="min-width: 100px"><center>@item.Code</td>
-                            <td style="min-width: 100px"><center>@item.Name</td>
-                            <td style="min-width: 100px"><center>@item.Description</td>
-                            <td style="min-width: 100px"><center>@item.StartDate</td>
-                            <td style="min-width: 100px"><center>@item.EndDate</td>
-                            <td style="min-width: 100px"><center>@item.Instructor</td>
-                            <td><center>@item.Place</td>
-                            <td><center>@item.CourseForm</td>
-                            <td style="min-width: 100px"><center>@item.SeatsOccupied / @item.NumberOfSeats</td>
-                            <td><center>@item.Ects</td>
-                            <td>
-                                @using (Html.BeginForm("UnsubscribeCourse", "Home"))
-                                {
-                                    @Html.Hidden("id", item.Id)
-                                    <input type="submit" value="Wypisz" />
-                                }
-                            </td>
-                        </tr>
+                        @Html.Hidden("id", item.Id)
+                        <input type="submit" value="Wypisz"/>
                     }
+                </td>
+            </tr>
+        }
 
-                </table>
+        </tbody>
+    </table>
 
-            </div>
-        </div>
+    <div class="pagination-container">
+        @Html.PagedListPager(Model, page => Url.Action("UserCourses", new {page}), new PagedListRenderOptions() {Display = PagedListDisplayMode.IfNeeded})
     </div>
+
 </div>
-@Html.PagedListPager(Model, page => Url.Action("UserCourses", new { page }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })
+

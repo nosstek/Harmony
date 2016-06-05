@@ -1,151 +1,177 @@
-﻿    body,html{
-		height: 100%;
-	}
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-	/* remove outer padding */
-	.main .row{
-		padding: 0px;
-		margin: 0px;
-	}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
 
-	/*Remove rounded coners*/
+body {
+/*    background-color: #f5f5f5;*/
+    /*background: #50a3a2;
+    background: -webkit-linear-gradient(top left, #0e1a35 0%, #5384ff 100%);
+    background: linear-gradient(to bottom right, #0e1a35 0%, #5384ff 100%);*/
+    background-color: #2B4689;
+    /* overflow: hidden; */
+    height: 100vh;
+    overflow-x: hidden;
+}
 
-	nav.sidebar.navbar {
-		border-radius: 0px;
-	}
+.submenu-custom{
+    display: none;
+}
 
-	nav.sidebar, .main{
-		-webkit-transition: margin 200ms ease-out;
-	    -moz-transition: margin 200ms ease-out;
-	    -o-transition: margin 200ms ease-out;
-	    transition: margin 200ms ease-out;
-	}
+.courses-dropdown{
+    display: none;
+}
 
-	/* Add gap to nav and right windows.*/
-	.main{
-		padding: 10px 10px 0 10px;
-	}
+.isActive{
+    display: block !important;
+}
 
-	/* .....NavBar: Icon only with coloring/layout.....*/
+#checkbox, .btn span { /* Hide the checkbox input & word "Menu" in the button */
+    display: none;
+}
 
-	/*small/medium side display*/
-	@media (min-width: 768px) {
+/* Menu button - starts */
+.btn {
+    display: block;
+    background-color: #0e1a35;
+    color: #fff;
+    width: 55px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: width .3s ease-in-out;
+/*    border-radius: 2px solid;*/
+        position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999999;
+}
+/* Menu button - ends */
 
-		/*Allow main to be next to Nav*/
-		.main{
-			position: absolute;
-			width: calc(100% - 40px); /*keeps 100% minus nav size*/
-			margin-left: 40px;
-			float: right;
-		}
+/* Sidebar - starts */
+.sidebar {
+    background-color: #0e1a35;
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    z-index: 1111;
+    transition: transform .3s ease-in-out;
+    transform: translateX(-250px);
+}
 
-		/*lets nav bar to be showed on mouseover*/
-		nav.sidebar:hover + .main{
-			margin-left: 200px;
-		}
+.sidebar ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    /*margin-top: 50px;*/
+}
 
-		/*Center Brand*/
-		nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-			margin-left: 0px;
-		}
-		/*Center Brand*/
-		nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
-			text-align: center;
-			width: 100%;
-			margin-left: 0px;
-		}
+.sidebar ul a {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 15px 20px;
+    font-size: 16px;
+}
 
-		/*Center Icons*/
-		nav.sidebar a{
-			padding-right: 13px;
-		}
+label.btn{
+    border-radius: 0;
+}
 
-		/*adds border top to first nav box */
-		nav.sidebar .navbar-nav > li:first-child{
-			border-top: 1px #e5e5e5 solid;
-		}
+.sidebar ul a li i {
+    margin-right: 15px;
+}
 
-		/*adds border to bottom nav boxes*/
-		nav.sidebar .navbar-nav > li{
-			border-bottom: 1px #e5e5e5 solid;
-		}
+/* Add the word "New" to the second item and "2" to the third item */
+.sidebar ul a:nth-child(2)::after, .sidebar ul a:nth-child(3)::after {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -9px;
+    color: #5384ff;
+    font-size: 13px;
+    padding: 0 7px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+/*
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+*/
+}
 
-		/* Colors/style dropdown box*/
-		nav.sidebar .navbar-nav .open .dropdown-menu {
-			position: static;
-			float: none;
-			width: auto;
-			margin-top: 0;
-			background-color: transparent;
-			border: 0;
-			-webkit-box-shadow: none;
-			box-shadow: none;
-		}
+/* Add margin to the icon in the second item */
+.sidebar ul a:nth-child(2) li i {
+/*    margin-left: 4px;*/
+    margin-right: 19px;
+}
 
-		/*allows nav box to use 100% width*/
-		nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
-			padding: 0 0px 0 0px;
-		}
+.sidebar ul a:hover, .sidebar ul a.active {
+    background-color: #0e1a40;
+    color: #fff;
+    opacity: 0.7;
+}
 
-		/*colors dropdown box text */
-		.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
-			color: #777;
-		}
+.sidebar ul a:hover::before, .sidebar ul a.active::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    background-color: #5384ff;
+    width: 4px;
+    height: 100%;
+}
+/* Sidebar - ends */
 
-		/*gives sidebar width/height*/
-		nav.sidebar{
-			width: 200px;
-			height: 100%;
-			margin-left: -160px;
-			float: left;
-			z-index: 8000;
-			margin-bottom: 0px;
-		}
+/* Effect of showing the sidebar - starts */
+#checkbox:checked ~ .sidebar {
+    transform: translateX(0);
+}
 
-		/*give sidebar 100% width;*/
-		nav.sidebar li {
-			width: 100%;
-		}
+#checkbox:checked + .btn {
+    width: 250px;
+    padding: 0 20px;
+}
 
-		/* Move nav to full on mouse over*/
-		nav.sidebar:hover{
-			margin-left: 0px;
-		}
-		/*for hiden things when navbar hidden*/
-		.forAnimate{
-			opacity: 0;
-		}
-	}
+#checkbox:checked + .btn span { /* Show again the word "Menu" in the button */
+    display: inline;
+}
+/* Effect of showing the sidebar - ends */
 
-	/* .....NavBar: Fully showing nav bar..... */
+/**************tables**************/
+table, td, th {
+    border: 1px solid rgba(14, 26, 53, 0.1);
+    text-align: left;
+}
 
-	@media (min-width: 1330px) {
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
 
-		/*Allow main to be next to Nav*/
-		.main{
-			width: calc(100% - 200px); /*keeps 100% minus nav size*/
-			margin-left: 200px;
-		}
+th, td {
+    padding: 15px;
+}
 
-		/*Show all nav*/
-		nav.sidebar{
-			margin-left: 0px;
-			float: left;
-		}
-		/*Show hidden items on nav*/
-		nav.sidebar .forAnimate{
-			opacity: 1;
-		}
-	}
 
-	nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
-		color: #CCC;
-		background-color: transparent;
-	}
+.btn:hover {
+    color: #5384ff;
+    text-decoration: none;
+}
 
-	nav:hover .forAnimate{
-		opacity: 1;
-	}
-	section{
-		padding-left: 15px;
-	}
+.content{
+  transition: all .3s ease-in-out;
+}
+
+.content.isOpen {
+  /*transform: translate3d(220px, 0, 0);*/
+      margin-left: 235px;
+}
