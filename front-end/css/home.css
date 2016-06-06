@@ -12,6 +12,7 @@ body{
 .white-bg{
     background-color: rgba(255, 255, 255, 0.95);
     min-height: 100vh;
+
 }
 
 section{
@@ -160,6 +161,7 @@ opacity: 0.7;
   -o-transition: all 0.2s ease-in;
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
+  text-align: left;
 }
 .select-styled:after {
   content: "";
@@ -189,15 +191,20 @@ opacity: 0.7;
   right: 0;
   left: 0;
   z-index: 999;
+  text-align: left;
   margin: 0;
   padding: 0;
   list-style: none;
   background-color: rgba(14,26,64, .9);
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
 }
 .select-options li {
   margin: 0;
   padding: 12px 0;
   text-indent: 15px;
+  text-align: left;
   border-top: 1px solid rgba(14,26,64, 1);
   -moz-transition: all 0.15s ease-in;
   -o-transition: all 0.15s ease-in;
@@ -206,8 +213,9 @@ opacity: 0.7;
 }
 .select-options li:hover {
   color: rgba(14,26,64, 0.5);
-  background: #fff;
+  background: rgba(14,26,64, 0.1);
 }
+
 .select-options li[rel="hide"] {
   display: none;
 }
@@ -226,6 +234,7 @@ opacity: 0.7;
   text-align: left;
   padding: 8px 15px;
   border-radius: 3px;
+  margin-bottom: 5px;
 }
 
 .panel-button:hover {
@@ -354,4 +363,69 @@ img.frame {
     -webkit-transition-duration: 0.25s;
     transition-duration: 0.25s;
     font-weight: 200;
+}
+/*users-edit-admin*/
+#user-edit{
+    width: 220px;
+    height: 40px;
+    border: 0;
+    font-size: 16px;
+    text-align: left;
+}
+/*end*/
+/*#custom-edit{
+  display:block;
+  height: 40px;
+  border: 0;
+  font-size: 16px;
+}*/
+#p-edit{
+  height:40px;
+  display: block;
+}
+.custom-edit{
+  display: inline-block;
+  width: 220px;
+  height: 40px;
+  border: 0;
+  background: #0e1a40;
+  color: #fff;
+  font-size: 16px;
+  text-align: left;
+  padding: 8px 15px;
+  margin-bottom: 7px;
+  border-radius: 3px;
+}
+
+.label-row label{
+  padding-right: 10vw;
+}
+
+.checkbox-edit1{
+    height: 40px;
+    margin-top: 20px;
+    display: block;
+}
+.checkbox-edit2{
+    height: 40px;
+    margin-top: 10px;
+    display: block;
+}
+
+.panel-button-edit{
+  width: 220px;
+  height: 40px;
+  border: 0;
+  background: rgba(14,26,64, 1);
+  color: #fff;
+  font-size: 16px;
+  text-align: left;
+  padding: 8px 15px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.panel-button-edit:hover {
+    color: #fff;
+    background: rgba(14,26,64, 0.8);
 }
