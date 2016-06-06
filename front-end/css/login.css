@@ -115,7 +115,7 @@ form select{
   height: auto;
   max-height: 200px;
   overflow-x: hidden;
-  border-style: solid;
+  overflow-y: scroll;
 }
 /*form input:focus {*/
 .custom-input:focus{
