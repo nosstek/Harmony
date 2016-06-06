@@ -18,6 +18,10 @@ body {
     overflow-x: hidden;
 }
 
+#admin-panel{
+  background-color: #525669;
+}
+
 .submenu-custom{
     display: none;
 }
