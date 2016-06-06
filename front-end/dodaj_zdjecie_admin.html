@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+<!--    <link href="css/style.css" rel="stylesheet">-->
+<!--    <link href="css/login.css" rel="stylesheet">-->
+    <link href="css/sidebar.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/media.css" rel="stylesheet">
+    <!-- <link href="css/body.css" rel="stykesheet"> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+<!--   menu   -->
+<input type="checkbox" id="checkbox">
+<label class="btn" id="btn-menu" for="checkbox"><i class="fa fa-bars"></i> <span>Menu</span></label>
+
+<div class="sidebar">
+  <ul>
+      <a href="home_admin.html"><li><i class="fa fa-home" aria-hidden="true"></i>Strona Główna</li></a>
+      <a href="kursy_admin.html"><li><i class="fa fa-database" aria-hidden="true"></i>Kursy</li></a>
+      <a href="users_admin.html"><li><i class="fa fa-users" aria-hidden="true"></i>Użytkownicy</li></a>
+      <a href="#" class="dropdown" data-toggle="dropdown" type="button" id="settings-menu"><li><i class="fa fa-gear" aria-hidden="true"></i>Ustawienia konta</li></a>
+          <div class="submenu-custom" id="settings-submenu">
+          <a href="zmien_haslo_admin.html"><li><i class="fa fa-refresh" aria-hidden="true"></i>Zmień hasło</li></a>
+          <a href="dodaj_zdjecie_admin.html"><li><i class="fa fa-picture-o" aria-hidden="true"></i>Dodaj zdjęcie</li></a>
+          </div>
+      <a href="wyloguj.html"><li><i class="fa fa-power-off"></i>Wyloguj</li></a>
+  </ul>
+</div>
+<!--      end of menu-->
+
+<div class="topnav" style="position: relative; top: 0px;">
+          <div class="container container-custom">
+            <div id="panel-topnav">
+                    <img src="img/logo.png" class="img-responsive2">
+                    <span>Harmony</span>
+            </div>
+          </div>
+      </div>
+
+      <section class="content">
+
+          <div class="container">
+              <div class="col-md-12 white-bg text-content">
+                  <h1>Dodaj zdjęcie</h1>
+
+                  <input type="file" class="button-img" name="Wybierz zdjęcie">
+                  <input type="submit" class="panel-button" value="Dodaj zdjęcie" style="display: block;">
+              </div>
+          </div>
+
+      </section>
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="js/main.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/sidebar.js"></script>
+  </body>
+</html>
