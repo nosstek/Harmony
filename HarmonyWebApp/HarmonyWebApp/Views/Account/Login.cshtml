@@ -12,10 +12,10 @@
 
     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
-    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Adres e-mail" })
+    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Adres e-mail", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.Email, "", new {@class = "text-danger"})
 
-    @Html.PasswordFor(m => m.Password, new { @placeholder = "Hasło" })
+    @Html.PasswordFor(m => m.Password, new { @placeholder = "Hasło", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
 
     <label class="custom-label">@Html.CheckBoxFor(m => m.RememberMe)Zapamiętaj mnie</label>

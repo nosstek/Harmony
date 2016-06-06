@@ -28,15 +28,16 @@ namespace HarmonyWebApp
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
                       "~/Content/style.css",
-                      "~/Content/login.css"));
+                      "~/Content/login.css",
+                      "~/Content/media.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssLoggedIn").Include(
                      "~/Content/bootstrap.min.css",
                      "~/Content/sidebar.css",
                      "~/Content/home.css",
-                     "~/Content/font-awesome.min.css"));
+                     "~/Content/font-awesome.min.css",
+                     "~/Content/media.css"));
         }
     }
 }

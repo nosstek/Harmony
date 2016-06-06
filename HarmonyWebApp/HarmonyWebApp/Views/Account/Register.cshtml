@@ -5,7 +5,7 @@
 
 <h1 class="text-center">Aby korzystać z serwisu <span>zarejestruj się.</span></h1>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -21,28 +21,28 @@
     <label class="custom-label">@Html.CheckBoxFor(m => m.PartTimeStudies)Niestacjonarne</label>
     <br /><br />
 
-    @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "Imię" })
+    @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "Imię", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Nazwisko" })
+    @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Nazwisko", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.Address, new { @placeholder = "Adres" })
+    @Html.TextBoxFor(m => m.Address, new { @placeholder = "Adres", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.PostalCode, new { @placeholder = "Kod pocztowy" })
+    @Html.TextBoxFor(m => m.PostalCode, new { @placeholder = "Kod pocztowy", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.City, new { @placeholder = "Miejscowość" })
+    @Html.TextBoxFor(m => m.City, new { @placeholder = "Miejscowość", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+    @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 
-    @Html.PasswordFor(m => m.Password, new { @placeholder = "Hasło" })
+    @Html.PasswordFor(m => m.Password, new { @placeholder = "Hasło", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
-    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Potwierdź hasło" })
+    @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Potwierdź hasło", @class = "custom-input" })
     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
 
     <br/><br/>

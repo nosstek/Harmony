@@ -252,6 +252,7 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\user_photo.jpg" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\media.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\sidebar.css" />
     <Content Include="Content\sidebar_home2.css" />

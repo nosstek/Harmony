@@ -1,0 +1,22 @@
+@media (max-width: 768px){
+
+
+.text-content{
+  padding: 29px 15px 29px 15px !important;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+.label-row label{
+  float: left;
+  margin-left: 25px;
+}
+
+.content.isOpen {
+  /*transform: translate3d(220px, 0, 0);*/
+      margin-left: 1000px !important;
+}
+
+
+}
