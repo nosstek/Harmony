@@ -56,7 +56,7 @@ table tr {
 }
 table th,
 table td {
-  padding: .625em;
+  padding: .225em;
   text-align: center;
 }
 table th {
@@ -399,6 +399,7 @@ img.frame {
 
 .label-row label{
   padding-right: 10vw;
+  width: 220px;
 }
 
 .checkbox-edit1{
