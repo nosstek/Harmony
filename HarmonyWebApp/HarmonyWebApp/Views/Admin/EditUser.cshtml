@@ -1,5 +1,4 @@
-﻿
-@using HarmonyWebApp.Models
+﻿@using HarmonyWebApp.Models
 @using Microsoft.AspNet.Identity
 @model  HarmonyWebApp.Models.IdentityViewModel
 
@@ -8,83 +7,60 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<div class="col-md-12 white-bg text-content">
+    <h1>Edycja danych użytkownika</h1>
+    <h4><span class="glyphicon glyphicon-exclamation-sign"></span>  Uwaga - zmiana kierunku studiów spowoduje automatyczne wypisanie użytkownika z wszystkich kursów.</h4>
 
-<div class="panel panel-success">
-    <div class="panel-heading">
-        <h5 class="panel-title"><b><center>Edycja danych użytkownika: @Model.FirstName @Model.LastName</center></b></h5>
-    </div>
+    @using (Html.BeginForm("EditUser", "Admin"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
 
-    
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <p><span class="glyphicon glyphicon-exclamation-sign"></span>  Uwaga - zmiana kierunku studiów spowoduje automatyczne wypisanie użytkownika z wszystkich kursów.</p>
-            </div>
-        </div>
-      
-
-                @using (Html.BeginForm("EditUser", "Admin"))
+                if (property.PropertyName == "FieldOfStudyId")
+                {   <br/><br/>
+                    <div class="label-row">
+                        <label>Kierunek studiów</label>
+                        @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursesList)
+                    </div>
+                    <br /><br />
+                }
+                else
                 {
-                    <div class="panel-body">
-                        @Html.HiddenFor(m => m.Id)
-                        @foreach (var property in ViewData.ModelMetadata.Properties)
-                        {
-
-                            if (property.PropertyName == "FieldOfStudyId")
-                            {
-
-                                <div class="form-group ">
-                                    <label class="col-md-2 control-label">Kierunek studiów</label>
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(m => m.FieldOfStudyId, Model.CoursesList, null, new { @class = "form-control" })
-                                    </div>
-
-                                </div>
-                            }
-                            else
-                            {
-
-                                if (property.PropertyName == "FullTimeStudies")
-                                {
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Typ studiów</label>
-                                        <div class="col-md-10">
-                                            @Html.LabelFor(m => m.FullTimeStudies)
-                                            @Html.CheckBoxFor(m => m.FullTimeStudies)
-                                        </div>
-                                    </div>
-                                }
-
-                                else if (property.PropertyName == "Student")
-                                {
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Rodzaj użytkownika</label>
-                                        <div class="col-md-10">
-                                            @Html.LabelFor(m => m.Student)
-                                            @Html.CheckBoxFor(m => m.Student)
-                                        </div>
-                                    </div>
-                                }
-
-
-                                else if (property.PropertyName != "CoursesList" && property.PropertyName != "DepartmentId" && property.PropertyName != "Id")
-                                {
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">@property.DisplayName</label>
-                                        <div class="col-md-10">
-                                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        }
-
-                    </div>
-           
-       
-                    <div class="panel-footer">
-                        <input type="submit" value="Zapisz" class="btn btn-success" />
-                        @Html.ActionLink("Anuluj i wróć do listy użytkowników", "UsersData", null, new { @class = "btn btn-default" })
-                    </div>
-
+                    if (property.PropertyName == "FullTimeStudies")
+                    {
+                        <div class="label-row">
+                            <label>Typ studiów</label>
+                            @Html.LabelFor(m => m.FullTimeStudies)
+                            @Html.CheckBoxFor(m => m.FullTimeStudies)
+                        </div>
                     }
-     </div>
+
+                    else if (property.PropertyName == "Student")
+                    {
+                        <div class="label-row">
+                            <label>Rodzaj użytkownika</label>
+                                @Html.LabelFor(m => m.Student)
+                                @Html.CheckBoxFor(m => m.Student)
+                        </div>
+                    }
+
+
+                    else if (property.PropertyName != "CoursesList" && property.PropertyName != "DepartmentId" && property.PropertyName != "Id" && property.PropertyName != "ImageBytes")
+                    {
+                        <div class="label-row">
+                            <label>@property.DisplayName</label>
+                                @Html.TextBox(property.PropertyName, null, new { @class = "custom-edit" })
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+
+            <input type="submit" value="Zapisz" class="panel-button" />
+            @Html.ActionLink("Anuluj i wróć do listy użytkowników", "UsersData", null, new { @class = "panel-button" })
+    }
+</div>
+

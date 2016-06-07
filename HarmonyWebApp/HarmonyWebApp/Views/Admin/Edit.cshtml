@@ -4,57 +4,42 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<div class="col-md-12 white-bg text-content">
 
 
-<div class="panel panel-success">
-    <div class="panel-heading">
-
-        @if (@Model.Name != null)
-        {
-            <text>
-                <h5 class="panel-title"><b><center>Edycja kursu: @Model.Name</center></b>
-            </text>
-        }
-        else
-        {
-            <text>
-                <h5 class="panel-title"><b><center>Stwórz nowy kurs</center></b>
-            </text>
-        }
-
-
-</div>
-
-
+    @if (@Model.Name != null)
+    {
+        <h2>Edycja kursu: @Model.Name</h2>
+        <br/><br/>
+    }
+    else
+    {
+        <h2>Stwórz nowy kurs</h2>
+    }
 
     @using (Html.BeginForm("Edit", "Admin"))
-            {
-        <div class="panel-body">
-            @Html.HiddenFor(m => m.Id)
-            @foreach (var property in ViewData.ModelMetadata.Properties)
-            {
-                if (property.PropertyName != "Id" && property.PropertyName != "UsersWithActivities")
+    {
+        @Html.HiddenFor(m => m.Id)
+        foreach (var property in ViewData.ModelMetadata.Properties)
+        {
+            <div class="label-row">
+                @if (property.PropertyName != "Id" && property.PropertyName != "UsersWithActivities")
                 {
-                    <div class="form-group">
-                        <label>@(property.DisplayName ?? property.PropertyName)</label>
-                        @if (property.PropertyName == "description")
-                        {
-                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control", rows = 5 })
-                        }
-                        else
-                        {
-                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-                        }
-                    </div>
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                if (property.PropertyName == "description")
+                {
+                @Html.TextArea(property.PropertyName, null, new { @class = "custom-edit", rows = 5 })
                 }
-            }
-        </div>
+                else
+                {
+                @Html.TextBox(property.PropertyName, null, new { @class = "custom-edit" })
+                }
+                }
+            </div>
+        }
 
-        <div class="panel-footer">
-            <input type="submit" value="Zapisz" class="btn btn-success" />
-            @Html.ActionLink("Anuluj i wróć do listy", "CoursesPage", null, new { @class = "btn btn-default" })
-        </div>
-
+        <input type="submit" value="Zapisz" class="panel-button"/>
+        @Html.ActionLink("Anuluj i wróć do listy", "CoursesPage", null, new { @class = "panel-button"})
     }
-</div>
 
+</div>

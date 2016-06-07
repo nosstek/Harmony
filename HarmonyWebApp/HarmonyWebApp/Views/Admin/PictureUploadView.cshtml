@@ -1,0 +1,18 @@
+﻿@model HarmonyWebApp.Models.IdentityViewModel
+
+@{
+    ViewBag.Title = "PictureUploadView";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-md-12 white-bg text-content">
+    <h1>Dodaj zdjęcie</h1>
+
+    @using (Html.BeginForm("PictureUpload", "Admin", FormMethod.Post,
+                                            new { enctype = "multipart/form-data" }))
+    {
+
+        <input type="file" name="file" id="file" class="button-img" />
+        <input type="submit" value="Dodaj" class="panel-button" />
+    }
+</div>

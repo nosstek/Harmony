@@ -9,43 +9,33 @@
     };
 }
 
-<div class="panel panel-success">
-    <div class="panel-heading">
-        <h5 class="panel-title"><b><center>Panel administacyjny - baza dostępnych kursów</center></b></h5>
-    </div>
+<div class="col-md-12 white-bg text-content">
 
-    <div class="panel-group">
+    @using (Ajax.BeginForm(ajaxOpts))
+    {
+        <h1>Panel administacyjny - baza dostępnych kursów</h1>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+        <div class="col-md-12">
+            <label class="custom-label yolo">
+                @Html.RadioButton("searchBy", "Name", true)Nazwa
+            </label>
 
-                <p>
-                    @using (Ajax.BeginForm(ajaxOpts))
-                    {
-                    <p>
-                        Szukaj za pomocą:
-                        @Html.RadioButton("searchBy", "Name", true) Nazwa
-                        @Html.RadioButton("searchBy", "Code") Kod grupy<br />
-                        @Html.TextBox("searchString")
-                        <input type="submit" value="Szukaj" />
-                    </p>
-                    }
-                    </p>
-                </div>
-            </div>
-
-            <div class="panel panel-default" id="Courses">
-                @Html.Action("CoursesList")
-            </div>
-
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    @Html.ActionLink("Stwórz nowy kurs", "Create", null, new { @class = "btn btn-success" })
-                </div>
-            </div>
+            <label class="custom-label yolo">
+                @Html.RadioButton("searchBy", "Code")Kod grupy
+            </label>
         </div>
+
+        <div class="col-md-12" style="margin-bottom: 50px;">
+            <br>
+            @Html.TextBox("searchString", null, new { @class = "input-custom" })
+            <input type="submit" class="panel-button" value="Szukaj" />
+        </div>
+    }
+
+    <div id="Courses">
+        @Html.Action("CoursesList")
     </div>
 
+    @Html.ActionLink("Stwórz nowy kurs", "Create", null, new { @class = "panel-button" })
 
-
+</div>

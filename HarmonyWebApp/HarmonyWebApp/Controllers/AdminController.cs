@@ -6,6 +6,8 @@ using PagedList;
 using PagedList.Mvc;
 using HarmonyWebApp.Models;
 using System;
+using System.IO;
+using System.Web;
 using Microsoft.AspNet.Identity;
 
 namespace HarmonyWebApp.Controllers
@@ -221,6 +223,56 @@ namespace HarmonyWebApp.Controllers
             }
         }
 
-    
+        [HttpGet]
+        public ActionResult PictureUpload()
+        {
+            return View("PictureUploadView");
+        }
+
+
+
+        [HttpPost]
+        public ActionResult PictureUpload(IdentityViewModel model)
+        {
+
+
+            var userId = User.Identity.GetUserId();
+            model = _userRepository.GetIdentityViewModel(userId);
+
+            HttpPostedFileBase file;
+            if (Request.Files.Count > 0)
+            {
+                file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0 && ModelState.IsValid)
+                {
+                    using (Stream stream = file.InputStream)
+                    {
+                        MemoryStream memoryStream = stream as MemoryStream;
+                        if (memoryStream == null)
+                        {
+                            memoryStream = new MemoryStream();
+                            stream.CopyTo(memoryStream);
+                        }
+
+                        model.ImageBytes = memoryStream.ToArray();
+                        memoryStream.Dispose();
+                    }
+
+
+                    _userRepository.SaveUserData(model);
+
+
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Files", "Files Are empty");
+                return View("PictureUploadView", model);
+            }
+
+            return View("PictureUploadView");
+        }
+
     }
 }

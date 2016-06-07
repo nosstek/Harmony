@@ -1,6 +1,4 @@
-﻿
-@model IEnumerable<HarmonyWebApp.Models.UsersActivitiesViewModel>
-
+﻿@model IEnumerable<HarmonyWebApp.Models.UsersActivitiesViewModel>
 
 @{
     ViewBag.Title = "UsersActivities";
@@ -8,83 +6,66 @@
 }
 
 
-<div class="panel panel-success">
-    <div class="panel-heading">
+<div class="col-md-12 white-bg text-content">
+   
+    @if (Model.Count() == 0)
+    {
+        <h5><b>Ten użytkownik nie posiada przypisanych zajęć</b></h5>
 
-        @if (Model.Count() == 0)
-        {
-            <h5 class="panel-title"><b><center>Ten użytkownik nie posiada przypisanych zajęć</center></b></h5>
+    }
+    else
+    {
+        <h4><b>Edycja zajęć użytkownika: @Model.FirstOrDefault().FirstName @Model.FirstOrDefault().LastName</b></h4>
+    }
 
-        }
-        else
-        {
+    <table class="custom-table">
+        <thead>
+        <tr>
+            <th scope="col">Id kursu</th>
+            <th scope="col">Nazwa kursu</th>
+            <th scope="col">Kod kursu</th>
+            <th scope="col">Ilość miejsc</th>
+            <th scope="col">Forma kursu</th>
+            <th scope="col">Kierunek</th>
+            <th scope="col">Wydział</th>
+            <th scope="col">Akcja</th>
+        </tr>
+        </thead>
 
-            <h5 class="panel-title"><b><center>Edycja zajęć użytkownika: @Model.FirstOrDefault().FirstName @Model.FirstOrDefault().LastName </center></b></h5>
 
 
-        }
-    </div>
-
-<div class="panel-group">
-
-    <div class="panel panel-default">
-        <div class="panel-body">
-
-
-            <table class="table table-striped table-condensed table-bordered">
-                <tr>
-
-                    <th><center>Imię</center></th>
-                    <th><center>Nazwisko</center></th>
-                    <th><center>Id kursu</center></th>
-                    <th><center>Nazwa kursu</center></th>
-                    <th><center>Kod kursu</center></th>
-                    <th><center>Zajęte/Ilość miejsc</center></th>
-                    <th><center>Forma kursu</center></th>
-                    <th><center>Nazwa kierunku</center></th>
-                    <th><center>Nazwa wydziału</center></th>
-                    <th><center>Akcje</center></th>
-                </tr>
-                @if (Model.Count() == 0)
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+            <tr>
+                <td colspan="8"> Uzytkownik nie jest zapisany na żadne zajęcia </td>
+            </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
                 {
                     <tr>
-                        <td colspan="15"> Uzytkownik nie jest zapisany na żadne zajęcia </td>
+                        <td scope="row" data-label="Id kursu">@item.CourseId</td>
+                        <td data-label="Nazwa kursu">@item.CourseName</td>
+                        <td data-label="Kod kursu">@item.CourseCode</td>
+                        <td data-label="Ilość miejsc">@item.SeatsOccupied / @item.NumberOfSeats</td>
+                        <td data-label="Forma kursu">@item.CourseForm</td>
+                        <td data-label="Kierunek">@item.FieldName</td>
+                        <td data-label="Wydział">@item.DepartmentName</td>
+                        <td data-label="Akcja">
+                            @using (Html.BeginForm("DeleteUserFromActivity", "Admin", item, FormMethod.Post))
+                            {
+                                @Html.Hidden("id", item.UserId)
+                                <input type="submit" value="Wypisz"/>
+                            }
+                        </td>
                     </tr>
                 }
-                else
-                {
-                    foreach (var item in Model)
-                    {
-                        <tr>
+            }
+       
 
-                            <td style="min-width: 100px"><center>@item.FirstName</center></td>
-                            <td style="min-width: 100px"><center>@item.LastName</center></td>
-                            <td style="min-width: 100px"><center>@item.CourseId</center></td>
-                            <td style="min-width: 100px"><center>@item.CourseName</center></td>
-                            <td style="min-width: 100px"><center>@item.CourseCode</center></td>
-                            <td style="min-width: 100px"><center>@item.SeatsOccupied / @item.NumberOfSeats</center></td>
-                            <td style="min-width: 100px"><center>@item.CourseForm</center></td>
-                            <td style="min-width: 100px"><center>@item.FieldName</center></td>
-                            <td style="min-width: 100px"><center>@item.DepartmentName</center></td>
+        </tbody>
+    </table>
 
-                            <td>
-                                @using (Html.BeginForm("DeleteUserFromActivity", "Admin", item, FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", item.UserId)
-                                    <input type="submit" value="Wypisz"/>
-                                }
-                            </td>
-
-                        </tr>
-                    }
-                }
-            </table>
-        </div>
-    </div>
-
-
-    <div class="panel-footer">
-        @Html.ActionLink("Wróć do listy użytkowników", "UsersData", null, new {@class = "btn btn-success"})
-    </div>
-</div>
 </div>

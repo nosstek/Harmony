@@ -35,6 +35,7 @@ namespace HarmonyWebApp.Models
         public int FieldOfStudyId { get; set; }
 
         public byte[] ImageBytes { get; set; }
+
         public int DepartmentId { get; set; }
 
         public IEnumerable<SelectListItem> CoursesList { get; set; }

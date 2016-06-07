@@ -1,69 +1,66 @@
 ﻿@using PagedList.Mvc
 @model PagedList.IPagedList<HarmonyWebApp.Models.ActivityViewModel>
-    
 
-    <div class="panel-body">
+<table class="custom-table">
+    <thead>
+    <tr>
+        <th scope="col">Kod grupy</th>
+        <th scope="col">Nazwa</th>
+        <th scope="col">Opis</th>
+        <th scope="col">Rozpoczęcie</th>
+        <th scope="col">Zakończenie</th>
+        <th scope="col">Częstość</th>
+        <th scope="col">Prowadzący</th>
+        <th scope="col">Miejsce</th>
+        <th scope="col">Forma</th>
+        <th scope="col">Ilość miejsc</th>
+        <th scope="col">ECTS</th>
+        <th scope="col">Kierunek</th>
+        <th scope="col">Wydział</th>
+        <th scope="col">Akcja</th>
+    </tr>
+    </thead>
 
-
-
-        <table class="table table-striped table-condensed table-bordered">
+    <tbody>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="14"> Brak zajęć o podanym kryterium </td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
             <tr>
-                <th><center>Kod</center></th>
-                <th><center>Nazwa</center></th>
-                <th><center>Opis</center></th>
-                <th><center>Start</center></>
-                <th><center>Koniec</center></th>
-                <th><center>Częstość zajęć</center></th>
-                <th><center>Studia stacjonarne</center></th>
-                <th><center>Prowadzący</center></th>
-                <th><center>Miejsce</center></th>
-                <th><center>Forma kursu</center></th>
-                <th><center>Ilość miejsc</center></th>
-                <th><center>Ects</center></th>
-                <th><center>Wydział</center></th>
-                <th><center>Kierunek</center></th>
-                <th><center>Akcje</center></th>
+                <td scope="row" data-label="Kod grupy">@item.Code</td>
+                <td data-label="Nazwa">@Html.ActionLink(item.Name, "Edit", new { item.Id })</td>
+                <td data-label="Opis">@item.Description</td>
+                <td data-label="Rozpoczęcie">@item.StartDate</td>
+                <td data-label="Zakończenie">@item.EndDate</td>
+                <td data-label="Częstość">@item.Every_x_Days</td>
+                <td data-label="Prowadzący">@item.Instructor</td>
+                <td data-label="Miejsce">@item.Place</td>
+                <td data-label="Forma">@item.CourseForm</td>
+                <td data-label="Ilość miejsc">@item.SeatsOccupied / @item.NumberOfSeats</td>
+                <td data-label="ECTS">@item.Ects</td>
+                <td data-label="Kierunek">@item.FieldOfStudyName</td>
+                <td data-label="Wydział">@item.DepartmentName</td>
+                <td data-label="Akcja">
+                    @using (Html.BeginForm("Delete", "Admin"))
+                    {
+                        @Html.Hidden("id", item.Id)
+                        <input type="submit" value="Usuń" />
+                    }
+                </td>
+
             </tr>
-            @if (Model.Count() == 0)
-            {
-                <tr>
-                    <td colspan="15"> Brak zajęć o podanym kryterium </td>
-                </tr>
-            }
-            else
-            {
-                foreach (var item in Model)
-                {
+        }
+    }
 
+    </tbody>
 
-                    <tr>
-                        <td style="min-width: 100px"><center>@item.Code</center></td>
-                        <td><center>@Html.ActionLink(item.Name, "Edit", new { item.Id })</center></td>
-                        <td style="min-width: 100px"><center>@item.Description</center></td>
-                        <td><center>@item.StartDate</center></td>
-                        <td><center>@item.EndDate</center></td>
-                        <td><center>@item.Every_x_Days dni</center></td>
-                        <td><center>@(item.FreeWeekends ? "TAK" : "NIE")</center></td>
-                        <td><center>@item.Instructor</center></td>
-                        <td><center>@item.Place</center></td>
-                        <td><center>@item.CourseForm</center></td>
-                        <td><center>@item.SeatsOccupied / @item.NumberOfSeats</center></td>
-                        <td><center>@item.Ects</center></td>
-                        <td style="min-width: 100px"><center>@item.DepartmentName</center></td>
-                        <td style="min-width: 100px"><center>@item.FieldOfStudyName</center></td>
-
-                        <td>
-                            @using (Html.BeginForm("Delete", "Admin"))
-                            {
-                                @Html.Hidden("id", item.Id)
-                                <input type="submit" value="Usuń" />
-                            }
-                        </td>
-                    </tr>
-                }
-            }
-        </table>
-    </div>
+</table>
 
 @Html.PagedListPager(Model, page => Url.Action("CoursesPage", new { page, searchBy = Request.QueryString["searchBy"], searchString = Request.QueryString["searchString"] }),
                 new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

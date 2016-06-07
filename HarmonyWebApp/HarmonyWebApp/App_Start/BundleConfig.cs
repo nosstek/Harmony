@@ -26,6 +26,10 @@ namespace HarmonyWebApp
                       "~/Scripts/main.js",
                       "~/Scripts/sidebar.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapLogin").Include(
+                     "~/Scripts/bootstrap.js",
+                     "~/Scripts/main.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/style.css",

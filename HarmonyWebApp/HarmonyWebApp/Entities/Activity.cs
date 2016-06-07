@@ -26,15 +26,15 @@ namespace HarmonyWebApp.Entities
         public string Description { get; set; }
 
         [Required]
-        [Display(Name = "Rozpoczęcie zajęć")]
+        [Display(Name = "Rozpoczęcie")]
         public DateTime StartDate { get; set; }
 
         [Required]
-        [Display(Name = "Zakończenie zajęć")]
+        [Display(Name = "Zakończenie")]
         public DateTime EndDate { get; set; }
 
         [Required]
-        [Display(Name = "Częstość (Co ile dni)")]
+        [Display(Name = "Częstość")]
         public int Every_x_Days { get; set; }
 
         [Required]
@@ -64,7 +64,7 @@ namespace HarmonyWebApp.Entities
         public int SeatsOccupied { get; set; }
 
         [Required]
-        [Display(Name = "Ilość pktów Ects")]
+        [Display(Name = "Ects")]
         public int Ects { get; set; }
 
         [Display(Name = "Id Wydziału")]

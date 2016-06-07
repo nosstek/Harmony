@@ -9,8 +9,9 @@
 }
 
 .label-row label{
-  float: left;
-  margin-left: 25px;
+  width: 220px;
+  text-align: left;
+  margin: 5px;
 }
 
 .content.isOpen {

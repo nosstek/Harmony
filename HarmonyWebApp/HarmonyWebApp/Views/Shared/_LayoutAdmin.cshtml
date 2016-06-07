@@ -2,64 +2,80 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    <link href="~/Content/SideBar.css" rel="stylesheet" />
+
+    @Styles.Render("~/Content/cssLoggedIn")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
-<nav class="navbar navbar-inverse sidebar" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="~/Admin/Index">Harmony</a>
-            @using Microsoft.AspNet.Identity
-            @if (Request.IsAuthenticated)
+
+<body id="admin-panel">
+    <header>
+        <input type="checkbox" id="checkbox">
+        <label class="btn" id="btn-menu" for="checkbox">
+            <i class="fa fa-bars"></i> <span>Menu</span>
+        </label>
+
+        @using Microsoft.AspNet.Identity
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
             {
-                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
-                {
-                    @Html.AntiForgeryToken()
-                }
+                @Html.AntiForgeryToken()
             }
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="~/Admin/Index">Strona główna<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-                <li><a href="~/Admin/CoursesPage">Kursy<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
-                <li><a href="~/Admin/UsersData">Użytkownicy<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ustawienia konta <span class="caret"></span><span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
-                    <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="~/Manage/ChangePassword">Zmień hasło</a></li>
-                        <li><a href="#">Dodaj zdjęcie</a></li>
-                    </ul>
-                </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj<span style="font-size: 16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+        }
+
+        <div class="sidebar">
+            <ul>
+
+                <a href="~/Admin/Index">
+                    <li><i class="fa fa-home" aria-hidden="true"></i>Strona Główna</li>
+                </a>
+
+                <a href="~/Admin/CoursesPage">
+                    <li><i class="fa fa-calendar" aria-hidden="true"></i>Kursy</li>
+                </a>
+
+                <a href="~/Admin/UsersData">
+                    <li><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Użytkownicy</li>
+                </a>
+
+                <a href="#" class="dropdown" data-toggle="dropdown" type="button" id="settings-menu">
+                    <li><i class="fa fa-user" aria-hidden="true"></i>Ustawienia konta</li>
+                </a>
+
+                <div class="submenu-custom" id="settings-submenu">
+                    <a href="~/Admin/PictureUpload">
+                        <li><i class="fa fa-picture-o" aria-hidden="true"></i>Dodaj zdjęcie</li>
+                    </a>
+                </div>
+
+                <a href="javascript:document.getElementById('logoutForm').submit()"><li><i class="fa fa-power-off"></i>Wyloguj</li></a>
             </ul>
         </div>
-    </div>
-</nav>
 
-    <div class="container body-content">
-        @if (TempData["message"] != null)
-        {
-            <div class="alert alert-success"> @TempData["message"] </div>
-        }
-        @RenderBody()
-        <hr />
-        @*<footer>
-            <p>&copy; @DateTime.Now.Year - Harmony Web Application</p>
-        </footer>*@
-    </div>
+        <div class="topnav" style="position: relative; top: 0px;">
+            <div class="container container-custom">
+                <div id="panel-topnav">
+                    <img src="~/Content/img/logo.png" class="img-responsive2">
+                    <span>Harmony</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success"> @TempData["message"] </div>
+                }
+                    
+                @RenderBody()
+            </div>
+        </section>
+    </header>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
